@@ -1,0 +1,2 @@
+include *.txt
+recursive-include YT2Mp3 *.py
