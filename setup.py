@@ -6,7 +6,7 @@ with open('README.md', 'r') as fh:
         name='YT2Mp3',
         version='0.0.1',
         description='Converter for Youtube video files to mp3 audio format.',
-        url='https://github.com/schlopp96/PyLoadBar',
+        url='https://github.com/schlopp96/YT2Mp3',
         author='schlopp96',
         author_email='schloppdaddy@gmail.com',
         long_description=long_description,
@@ -14,7 +14,6 @@ with open('README.md', 'r') as fh:
         packages=find_packages(),
         include_package_data=True,
         install_requires=['PySimpleGUI==4.57.0'],
-        extras_require={"dev": ["pytest>=6.2.5"]},
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",
@@ -25,5 +24,5 @@ with open('README.md', 'r') as fh:
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         ],
         keywords=
-        'python loading progress bar simple easy utilities useful package module tqdm pytest'
+        'youtube to mp3 video convert converter download python py python3 audio'
     )
