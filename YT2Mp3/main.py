@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
+import logging
 from os import chdir
 from os.path import dirname
+
 import PySimpleGUI as psg
-import logging
 
 chdir(dirname(__file__))
 
@@ -21,7 +22,7 @@ logHandler.setFormatter(logFormatter)
 
 logger.addHandler(logHandler)
 #&================================================================================#
-appLayout = [
+appLayout: list = [
     [
         psg.Text(
             'Download and create mp3 files of your favorite YouTube videos',
@@ -36,14 +37,21 @@ appLayout = [
             s=(25, 1),
             do_not_clear=False,
             tooltip=
-            'Enter the URL of the YouTube video you wish to convert to an mp3.',
+            'Enter the URL/filepath of the YouTube video you wish to convert to an mp3.',
         ),
+        psg.FileBrowse(
+            key='-FileBrowse-',
+            tooltip=
+            'Browse local system for video files to convert to mp3 format.')
+    ],
+    [
         psg.ReadFormButton(
             'Submit',
-            auto_size_button=True,
             bind_return_key=True,
             key='-Submit-',
-            tooltip='Submit URL of YouTube video to convert to mp3.')
+            tooltip=
+            'Submit URL of YouTube video to convert to mp3. Can also use return (ENTER) key.'
+        )
     ],
     [
         psg.Multiline(size=(50, 20),
@@ -52,24 +60,23 @@ appLayout = [
                       auto_refresh=True,
                       autoscroll=True,
                       write_only=True)
-    ]
+    ], [psg.Exit(tooltip='Exit application.')]
 ]
 
-program_win = psg.Window(f'YT2Mp3 v{__version__}',
-                         layout=appLayout,
-                         auto_size_buttons=True,
-                         text_justification='Center',
-                         element_justification='Center')
+program_win: psg.Window = psg.Window(f'YT2Mp3 v{__version__}',
+                                     layout=appLayout,
+                                     auto_size_buttons=True,
+                                     text_justification='Center',
+                                     element_justification='Center')
 
-if __name__ == '__main__':
+
+def main():
     while True:
         event, vals = program_win.read()
         logger.info(f'{event} : {vals}')
         print(event, vals)
-
         if event in [psg.WIN_CLOSED, 'Exit']:
             break
-
         if event == '-Submit-':
             if vals['-URLInput-'] == "":
                 psg.popup('ERROR',
@@ -78,5 +85,8 @@ if __name__ == '__main__':
                 logger.warning('Entry can\'t be blank!')
                 continue
             program_win['-Output-'].print(f"URL: {vals['-URLInput-']}")
-
     program_win.Close()
+
+
+if __name__ == '__main__':
+    main()

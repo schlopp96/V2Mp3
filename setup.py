@@ -24,5 +24,5 @@ with open('README.md', 'r') as fh:
             "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         ],
         keywords=
-        'youtube to mp3 video convert converter download python py python3 audio'
+        'youtube to mp3 video file convert converter download python py python3 audio'
     )
