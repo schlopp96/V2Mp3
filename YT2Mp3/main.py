@@ -3,6 +3,7 @@
 import logging
 from os import chdir
 from os.path import dirname
+from secrets import token_urlsafe as uuid
 
 import moviepy.editor as mv
 import PySimpleGUI as psg
@@ -46,6 +47,16 @@ appLayout: list = [
             'Browse local system for video files to convert to mp3 format.')
     ],
     [
+        psg.Text('New File Name:', auto_size_text=True),
+        psg.Input(
+            key='-Out_Local-',
+            s=(25, 1),
+            do_not_clear=False,
+            tooltip=
+            'New filename of resulting mp3 file. Leave blank for a default file name.'
+        )
+    ],
+    [
         psg.ReadFormButton(
             'Submit',
             bind_return_key=True,
@@ -76,10 +87,23 @@ def dl_ytAudio():
 
 
 def convert_local(file, name):
-    video = mv.VideoFileClip(file)
-    audio = video.audio
+    try:
+        video = mv.VideoFileClip(file)
+        audio = video.audio
 
-    audio.write_audiofile(f'out/{name}.mp3', logger=logger)
+        audio.write_audiofile(f'./out/{name}.mp3')
+
+        program_win['-Output-'].print(
+            f'Successfully converted "{file}" to "{name}"!')
+        logger.info(f'Successfully converted "{file}" to "{name}"!')
+
+    except:
+        program_win['-Output-'].print(
+            f'\n[ERROR] - Something went wrong during conversion of "{file}" to "{name}.mp3"...\n===> Please try again!\n'
+        )
+        logger.error(
+            f'Something went wrong during conversion of "{file}" to "{name}.mp3"...\n===> Please try again!'
+        )
 
 
 def main():
@@ -97,7 +121,11 @@ def main():
                 logger.warning('Entry can\'t be blank!')
                 continue
             program_win['-Output-'].print(f"Input: {vals['-FileInput-']}")
-            #convert_local(vals['-FileInput-'], None)
+            if vals['-Out_Local-'] == "":
+                convert_local(vals['-FileInput-'], f'sample_{uuid(5)}.mp3')
+            else:
+                convert_local(vals['-FileInput-'], vals['-Out_Local-'])
+
     program_win.Close()
 
 
