@@ -4,7 +4,9 @@ import logging
 from os import chdir
 from os.path import dirname
 
+import moviepy.editor as mv
 import PySimpleGUI as psg
+from pytube import YouTube as YT
 
 chdir(dirname(__file__))
 
@@ -24,20 +26,19 @@ logger.addHandler(logHandler)
 #&================================================================================#
 appLayout: list = [
     [
-        psg.Text(
-            'Download and create mp3 files of your favorite YouTube videos',
-            justification='Center',
-            auto_size_text=True)
+        psg.Text('Convert Local Videos OR YouTube URLs to Mp3 Audio',
+                 justification='Center',
+                 auto_size_text=True)
     ], [psg.HorizontalSeparator('Black')],
     [psg.Text('Enter Relevant Information Below')],
     [
-        psg.Text('Video File: ', auto_size_text=True),
+        psg.Text('Filepath: ', auto_size_text=True),
         psg.Input(
             key='-FileInput-',
             s=(25, 1),
             do_not_clear=False,
             tooltip=
-            'Enter the URL/filepath of the YouTube video you wish to convert to an mp3.',
+            'Enter the URL/filepath of the video you wish to convert to an mp3.',
         ),
         psg.FileBrowse(
             key='-FileBrowse-',
@@ -50,7 +51,7 @@ appLayout: list = [
             bind_return_key=True,
             key='-Submit-',
             tooltip=
-            'Submit URL of YouTube video to convert to mp3. Can also use return (ENTER) key.'
+            'Submit URL/filepath of video to convert to mp3. Can also use return (ENTER) key.'
         )
     ],
     [
@@ -70,6 +71,17 @@ program_win: psg.Window = psg.Window(f'YT2Mp3 v{__version__}',
                                      element_justification='Center')
 
 
+def dl_ytAudio():
+    pass
+
+
+def convert_local(file, name):
+    video = mv.VideoFileClip(file)
+    audio = video.audio
+
+    audio.write_audiofile(f'out/{name}.mp3', logger=logger)
+
+
 def main():
     while True:
         event, vals = program_win.read()
@@ -84,7 +96,8 @@ def main():
                           keep_on_top=True)
                 logger.warning('Entry can\'t be blank!')
                 continue
-            program_win['-Output-'].print(f"URL: {vals['-FileInput-']}")
+            program_win['-Output-'].print(f"Input: {vals['-FileInput-']}")
+            #convert_local(vals['-FileInput-'], None)
     program_win.Close()
 
 
