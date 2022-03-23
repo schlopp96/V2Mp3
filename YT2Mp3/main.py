@@ -31,9 +31,9 @@ appLayout: list = [
     ], [psg.HorizontalSeparator('Black')],
     [psg.Text('Enter Relevant Information Below')],
     [
-        psg.Text('Video URL: ', auto_size_text=True),
+        psg.Text('Video File: ', auto_size_text=True),
         psg.Input(
-            key='-URLInput-',
+            key='-FileInput-',
             s=(25, 1),
             do_not_clear=False,
             tooltip=
@@ -78,13 +78,13 @@ def main():
         if event in [psg.WIN_CLOSED, 'Exit']:
             break
         if event == '-Submit-':
-            if vals['-URLInput-'] == "":
+            if vals['-FileInput-'] == "":
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
                           keep_on_top=True)
                 logger.warning('Entry can\'t be blank!')
                 continue
-            program_win['-Output-'].print(f"URL: {vals['-URLInput-']}")
+            program_win['-Output-'].print(f"URL: {vals['-FileInput-']}")
     program_win.Close()
 
 
