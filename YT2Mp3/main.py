@@ -18,7 +18,8 @@ __version__ = '0.0.1'
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
-logFormatter = logging.Formatter('%(asctime)s - %(levelname)s : %(message)s')
+logFormatter = logging.Formatter(
+    '[%(asctime)s - %(levelname)s] : %(message)s\n')
 
 logHandler = logging.FileHandler('./logs/yt2mp3.log', 'a')
 logHandler.setFormatter(logFormatter)
@@ -26,14 +27,12 @@ logHandler.setFormatter(logFormatter)
 logger.addHandler(logHandler)
 #&================================================================================#
 appLayout: list = [
-    [
-        psg.Text('Convert Local Videos OR YouTube URLs to Mp3 Audio',
-                 justification='Center',
-                 auto_size_text=True)
-    ], [psg.HorizontalSeparator('Black')],
+    [psg.Text('Convert Local Videos OR YouTube URLs to Mp3 Audio')],
+    [psg.HorizontalSeparator('Black')],
     [psg.Text('Enter Relevant Information Below')],
     [
-        psg.Text('Filepath: ', auto_size_text=True),
+        psg.Text('Filepath:'),
+        psg.VerticalSeparator('Black'),
         psg.Input(
             key='-FileInput-',
             s=(25, 1),
@@ -41,20 +40,22 @@ appLayout: list = [
             tooltip=
             'Enter the URL/filepath of the video you wish to convert to an mp3.',
         ),
+        psg.VerticalSeparator('Black'),
         psg.FileBrowse(
             key='-FileBrowse-',
+            target=(psg.ThisRow, -2),
             tooltip=
             'Browse local system for video files to convert to mp3 format.')
     ],
     [
-        psg.Text('New File Name:', auto_size_text=True),
+        psg.Text('Output Filename:'),
         psg.Input(
             key='-Out_Local-',
-            s=(25, 1),
+            s=(30, 1),
             do_not_clear=False,
             tooltip=
             'New filename of resulting mp3 file. Leave blank for a default file name.'
-        )
+        ),
     ],
     [
         psg.ReadFormButton(
@@ -91,11 +92,11 @@ def convert_local(file, name):
         video = mv.VideoFileClip(file)
         audio = video.audio
 
-        audio.write_audiofile(f'./out/{name}.mp3')
+        audio.write_audiofile(f'out/{name}.mp3')
 
         program_win['-Output-'].print(
-            f'Successfully converted "{file}" to "{name}"!')
-        logger.info(f'Successfully converted "{file}" to "{name}"!')
+            f'\nSuccessfully converted "{file}" to "{name}.mp3"!\n')
+        logger.info(f'Successfully converted "{file}" to "{name}.mp3"!')
 
     except:
         program_win['-Output-'].print(
@@ -120,9 +121,10 @@ def main():
                           keep_on_top=True)
                 logger.warning('Entry can\'t be blank!')
                 continue
-            program_win['-Output-'].print(f"Input: {vals['-FileInput-']}")
+            program_win['-Output-'].print(
+                f"Converting File: {vals['-FileInput-']}")
             if vals['-Out_Local-'] == "":
-                convert_local(vals['-FileInput-'], f'sample_{uuid(5)}.mp3')
+                convert_local(vals['-FileInput-'], f'sample_{uuid(5)}')
             else:
                 convert_local(vals['-FileInput-'], vals['-Out_Local-'])
 
