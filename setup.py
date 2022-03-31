@@ -1,19 +1,21 @@
 from setuptools import setup, find_packages
 with open('README.md', 'r') as fh:
     long_description = fh.read()
+with open('requirements.txt', 'r') as fh2:
+    reqs = fh2.read()
 
     setup(
-        name='YT2Mp3',
+        name='V2Mp3',
         version='0.0.1',
         description='Converter for Youtube video files to mp3 audio format.',
-        url='https://github.com/schlopp96/YT2Mp3',
+        url='https://github.com/schlopp96/V2Mp3',
         author='schlopp96',
         author_email='schloppdaddy@gmail.com',
         long_description=long_description,
-        long_description_content_type='text/plain',
+        long_description_content_type='text/markdown',
         packages=find_packages(),
         include_package_data=True,
-        install_requires=['PySimpleGUI==4.57.0'],
+        install_requires=[reqs],
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Developers",

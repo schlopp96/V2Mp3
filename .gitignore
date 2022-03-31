@@ -156,7 +156,10 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Newly converted Mp3 Files
+# Newly converted Mp3 Audio
 *.mp3
+
+# Downloaded Mp4 Videos
+*.mp4
 
 # End of https://www.toptal.com/developers/gitignore/api/python
