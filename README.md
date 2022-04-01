@@ -31,6 +31,7 @@
 
 - Home to the _**YouTube**_ download section
 - Enter your desired _**YouTube**_ video's URL address in the input field.
+  - Also works with _**YouTube Music**_ addresses.
 - Choose whether to download the video as normal, or just the audio from the video.
 - Once ready, click the "**Download**" button to begin.
 - You can find your downloaded videos within the `"./video"` folder, inside the _**V2Mp3**_ installation directory:
