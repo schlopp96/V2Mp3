@@ -159,7 +159,10 @@ cython_debug/
 # Newly converted Mp3 Audio
 *.mp3
 
-# Downloaded Mp4 Videos
+# Video Files
 *.mp4
+*.avi
+*.mov
+*.MPEG
 
 # End of https://www.toptal.com/developers/gitignore/api/python

@@ -1,2 +1,3 @@
 include *.txt
 recursive-include V2Mp3 *.gitkeep
+recursive-include docs *.png

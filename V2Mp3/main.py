@@ -11,7 +11,7 @@ from pytube import YouTube as YT
 
 chdir(dirname(__file__))
 
-__version__ = '0.0.1'
+__version__ = '0.1.0'
 #&================================================================================#
 
 #$ Establish logger
@@ -26,8 +26,11 @@ logHandler.setFormatter(logFormatter)
 
 logger.addHandler(logHandler)
 #&================================================================================#
+
+psg.theme('Dark Grey 11')
+
 appLayout: list = [
-    [psg.Text('Enter Relevant Information Below')],
+    [psg.Text('Fill Required Fields Below')],
     [psg.HorizontalSeparator('Black')],
     [
         psg.Frame(
@@ -35,16 +38,16 @@ appLayout: list = [
             layout=[
                 [psg.Text('Convert Local Videos to Mp3 Audio')],
                 [
-                    psg.Text('Filepath:'),
-                    psg.VerticalSeparator('Black'),
+                    psg.Text('Filepath:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        s=(25, 1),
+                        s=(27, 1),
                         key='-FileInput-',
                         do_not_clear=False,
                         tooltip=
                         'Enter the filepath of the video you wish to convert to an mp3.',
                         expand_x=True),
-                    psg.VerticalSeparator('Black'),
+                    psg.VerticalSeparator(pad=5),
                     psg.FileBrowse(
                         key='-FileBrowse-',
                         initial_folder='video/',
@@ -54,8 +57,8 @@ appLayout: list = [
                     )
                 ],
                 [
-                    psg.Text('Save As:'),
-                    psg.VerticalSeparator('Black'),
+                    psg.Text('Save As:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-Convert_Filename-',
                         s=(35, 1),
@@ -66,8 +69,9 @@ appLayout: list = [
                 ],
                 [
                     psg.ReadFormButton(
-                        'Convert',
+                        'Convert File',
                         key='-ConvertToMp3-',
+                        button_color='green',
                         tooltip=
                         'Submit filepath of video to convert to .mp3 format.')
                 ]
@@ -81,17 +85,17 @@ appLayout: list = [
             layout=[
                 [psg.Text('Enter URL of YouTube Video to Download.')],
                 [
-                    psg.Text('URL:', auto_size_text=True),
-                    psg.VerticalSeparator('Black'),
+                    psg.Text('URL:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-URLInput-',
-                        s=(25,
+                        s=(27,
                            1),
                         do_not_clear=False,
                         tooltip=
                         'Enter the URL of the content you wish to download.',
                         expand_x=True),
-                    psg.VerticalSeparator('Black'),
+                    psg.VerticalSeparator(pad=5),
                     psg.Checkbox(
                         'Audio Only',
                         key='-CB_AudioOnly-',
@@ -101,8 +105,8 @@ appLayout: list = [
                     )
                 ],
                 [
-                    psg.Text('Save As:'),
-                    psg.VerticalSeparator('Black'),
+                    psg.Text('Save As:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-DL_SaveAs-',
                         s=(35, 1),
@@ -113,23 +117,24 @@ appLayout: list = [
                 ],
                 [
                     psg.ReadFormButton(
-                        'Download',
+                        'Start Download',
+                        button_color='green',
                         key='-Download-',
-                        tooltip=
-                        'Begin downloading specified content from YouTube.')
+                        tooltip='Begin downloading content from YouTube URL.')
                 ]
             ],
             expand_x=True,
             element_justification='Center')
     ],
     [
-        psg.Multiline(size=(50, 25),
+        psg.Multiline(size=(50, 30),
                       key='-Output-',
                       disabled=True,
                       auto_refresh=True,
                       autoscroll=True,
-                      write_only=True)
-    ], [psg.Exit(tooltip='Exit application.')]
+                      write_only=True,
+                      expand_x=True)
+    ], [psg.Exit(button_color='red', tooltip='Exit application.')]
 ]
 
 program_win: psg.Window = psg.Window(f'V2Mp3 v{__version__}',
@@ -139,68 +144,129 @@ program_win: psg.Window = psg.Window(f'V2Mp3 v{__version__}',
                                      element_justification='Center')
 
 
-def dl_ytVideo(link: str, name: str):
+def dl_ytVideo(link: str, saveAs: str = f'video_{uuid(5)}.mp4') -> None:
+    """Download YouTube video found at url: `link`.
+
+    ---
+
+    Parameters:
+        :param link: URL of intended YouTube video download.
+        :type link: str
+        :param saveAs: name to save downloaded video as, defaults to f'video_{uuid(5)}.mp4'
+        :type saveAs: str, optional
+        :returns: .mp4 file, can be found in `"./V2Mp3/video"`.
+        :rtype: None
+    """
     try:
         url = YT(link)
         video = url.streams.get_highest_resolution()
-        video.download('video/', filename=name)
+        video.download('video/', filename=saveAs)
 
         program_win['-Output-'].print(
-            f'Successfully downloaded video from YouTube: "{url.title}"!\n==> Url: {link}\n'
+            f'\nSuccessfully downloaded video from YouTube: "{url.title}"!\n==> Url: {link}\n'
         )
         logger.info(
             f'Successfully downloaded video from YouTube: "{url.title}"!\n==> Url: {link}'
         )
     except Exception as exc:
         program_win['-Output-'].print(
-            f'[ERROR] - Something went wrong during attempt to download "{link}"...\n==> Please try again!\n'
+            f'\n[ERROR] - Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n'
         )
         logger.error(
-            f'Something went wrong during attempt to download "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
         )
 
 
-def dl_ytAudio(link: str, name: str):
+def dl_ytAudio(link: str, saveAs: str = f'audio_{uuid(5)}.mp3') -> None:
+    """Download audio from media content found at YouTube url: `link`.
+
+    - Works with both standard YouTube videos, and songs from YouTube Music addresses.
+
+    ---
+
+    Parameters:
+        :param link: URL of the intended download source.
+        :type link: str
+        :param saveAs: name to save downloaded audio as, defaults to f'audio_{uuid(5)}.mp3'
+        :type saveAs: str, optional
+        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"`.
+        :rtype: None
+    """
     try:
         url = YT(link)
         audio = url.streams.get_audio_only()
-        audio.download('audio/', filename=name)
+        audio.download('audio/', filename=saveAs)
         program_win['-Output-'].print(
-            f'Successfully downloaded audio from YouTube: "{url.title}"!\n==> Url: {link}\n'
+            f'\nSuccessfully downloaded audio from YouTube: "{url.title}"!\n==> Url: {link}\n'
         )
         logger.info(
             f'Successfully downloaded audio from YouTube: "{url.title}"!\n==> Url: {link}'
         )
     except Exception as exc:
         program_win['-Output-'].print(
-            f'[ERROR] - Something went wrong during attempt to download "{link}"...\n==> Please try again!\n'
+            f'[ERROR] - Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n'
         )
         logger.error(
-            f'Something went wrong during attempt to download "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
         )
 
 
-def convert_local(file: str, name: str):
+def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
+    """Convert locally stored video files to .mp3 audio format.
+
+    - Works for any extension supported by ffmpeg, such as:
+        - .aiff
+        - .avi
+        - .flv
+        - .gif
+        - .mov
+        - .mp4
+        - .mpg
+        - .ogv
+        - .qt
+        - .wmv
+        - many others.
+
+    ---
+
+    Parameters:
+        :param file: path to video file.
+        :type file: str
+        :param saveAs: name to save resulting audio file as, defaults to f'audio_{uuid(5)}.mp3'
+        :type saveAs: str
+        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"`.
+        :rtype: None
+    """
     try:
         video = mv.VideoFileClip(file)
         audio = video.audio
 
-        audio.write_audiofile(f'audio/{name}.mp3')
+        audio.write_audiofile(f'audio/{saveAs}.mp3')
 
         program_win['-Output-'].print(
-            f'\nSuccessfully converted "{file}" to "{name}.mp3"!\n')
-        logger.info(f'Successfully converted "{file}" to "{name}.mp3"!')
+            f'\nSuccessfully converted "{file}" to "{saveAs}.mp3"!\n')
+        logger.info(f'Successfully converted "{file}" to "{saveAs}.mp3"!')
 
     except Exception as exc:
         program_win['-Output-'].print(
-            f'\n[ERROR] - Something went wrong during conversion of "{file}" to "{name}.mp3"...\n==> Please try again!\n'
+            f'\n[ERROR] - Something went wrong during conversion of "{file}" ==> "{saveAs}.mp3"...\n==> Please try again!\n'
         )
         logger.error(
-            f'Something went wrong during conversion of "{file}" to "{name}.mp3"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during conversion of "{file}" ==> "{saveAs}.mp3"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
         )
 
 
-def v2mp3():
+def v2mp3() -> None:
+    """Run main event loop.
+
+    - Responsible for processing events from GUI and responding with correct functionality.
+
+    ---
+
+    Parameters:
+        :returns: Program window.
+        :rtype: None
+    """
     while True:
         event, vals = program_win.read()
         logger.info(f'{event} : {vals}')
@@ -220,7 +286,7 @@ def v2mp3():
             program_win['-Output-'].print(
                 f"Converting File: {vals['-FileInput-']}")
             if vals['-Convert_Filename-'] == "":
-                convert_local(vals['-FileInput-'], f'sample_{uuid(5)}')
+                convert_local(vals['-FileInput-'])
             else:
                 convert_local(vals['-FileInput-'], vals['-Convert_Filename-'])
 
@@ -235,9 +301,9 @@ def v2mp3():
                 f"Downloading File: {vals['-URLInput-']}")
             if vals['-DL_SaveAs-'] == "":
                 if vals['-CB_AudioOnly-']:
-                    dl_ytAudio(vals['-URLInput-'], f'sample_{uuid(5)}.mp3')
+                    dl_ytAudio(vals['-URLInput-'])
                 else:
-                    dl_ytVideo(vals['-URLInput-'], f'video_{uuid(5)}.mp4')
+                    dl_ytVideo(vals['-URLInput-'])
             elif vals['-CB_AudioOnly-']:
                 dl_ytAudio(vals['-URLInput-'], vals['-DL_SaveAs-'] + '.mp3')
             else:
