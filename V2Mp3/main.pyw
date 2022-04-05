@@ -11,7 +11,7 @@ from pytube import YouTube as YT
 
 chdir(dirname(__file__))
 
-__version__ = '0.1.0'
+__version__ = '0.2.0'
 #&================================================================================#
 
 #$ Establish logger
@@ -21,7 +21,7 @@ logger.setLevel(logging.DEBUG)
 logFormatter = logging.Formatter(
     '[%(asctime)s - %(levelname)s] : %(message)s\n')
 
-logHandler = logging.FileHandler('./logs/v2mp3.log', 'a')
+logHandler = logging.FileHandler('./logs/v2mp3_log.log', 'a')
 logHandler.setFormatter(logFormatter)
 
 logger.addHandler(logHandler)
@@ -30,8 +30,7 @@ logger.addHandler(logHandler)
 psg.theme('Dark Grey 11')
 
 appLayout: list = [
-    [psg.Text('Fill Required Fields Below')],
-    [psg.HorizontalSeparator('Black')],
+    [psg.Text('Fill Required Fields Below')], [psg.HorizontalSeparator()],
     [
         psg.Frame(
             'Mp3 Conversion',
@@ -60,12 +59,12 @@ appLayout: list = [
                     psg.Text('Save As:', s=6, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        key='-Convert_Filename-',
+                        key='-T1_SaveInput-',
                         s=(35, 1),
                         do_not_clear=False,
                         tooltip=
                         'New filename of resulting mp3 file.\nLeave blank for default file name.',
-                        expand_x=True),
+                        expand_x=True)
                 ],
                 [
                     psg.ReadFormButton(
@@ -108,7 +107,7 @@ appLayout: list = [
                     psg.Text('Save As:', s=6, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        key='-DL_SaveAs-',
+                        key='-T2_SaveInput-',
                         s=(35, 1),
                         do_not_clear=False,
                         tooltip=
@@ -241,7 +240,7 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
         video = mv.VideoFileClip(file)
         audio = video.audio
 
-        audio.write_audiofile(f'audio/{saveAs}.mp3')
+        audio.write_audiofile(f'audio/{saveAs}.mp3', logger=None)
 
         program_win['-Output-'].print(
             f'\nSuccessfully converted "{file}" to "{saveAs}.mp3"!\n')
@@ -285,10 +284,10 @@ def v2mp3() -> None:
                 continue
             program_win['-Output-'].print(
                 f"Converting File: {vals['-FileInput-']}")
-            if vals['-Convert_Filename-'] == "":
+            if vals['-T1_SaveInput-'] == "":
                 convert_local(vals['-FileInput-'])
             else:
-                convert_local(vals['-FileInput-'], vals['-Convert_Filename-'])
+                convert_local(vals['-FileInput-'], vals['-T1_SaveInput-'])
 
         if event == '-Download-':
             if vals['-URLInput-'] == "":
@@ -299,15 +298,15 @@ def v2mp3() -> None:
                 continue
             program_win['-Output-'].print(
                 f"Downloading File: {vals['-URLInput-']}")
-            if vals['-DL_SaveAs-'] == "":
+            if vals['-T2_SaveInput-'] == "":
                 if vals['-CB_AudioOnly-']:
                     dl_ytAudio(vals['-URLInput-'])
                 else:
                     dl_ytVideo(vals['-URLInput-'])
             elif vals['-CB_AudioOnly-']:
-                dl_ytAudio(vals['-URLInput-'], vals['-DL_SaveAs-'] + '.mp3')
+                dl_ytAudio(vals['-URLInput-'], vals['-T2_SaveInput-'] + '.mp3')
             else:
-                dl_ytVideo(vals['-URLInput-'], vals['-DL_SaveAs-'] + '.mp4')
+                dl_ytVideo(vals['-URLInput-'], vals['-T2_SaveInput-'] + '.mp4')
 
     program_win.Close()
 
