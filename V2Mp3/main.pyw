@@ -188,7 +188,7 @@ def dl_ytAudio(link: str, saveAs: str = f'audio_{uuid(5)}.mp3') -> None:
         :type link: str
         :param saveAs: name to save downloaded audio as, defaults to f'audio_{uuid(5)}.mp3'
         :type saveAs: str, optional
-        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"`.
+        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"` by default.
         :rtype: None
     """
     try:
@@ -232,7 +232,7 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
         :param file: path to video file.
         :type file: str
         :param saveAs: name to save resulting audio file as, defaults to f'audio_{uuid(5)}.mp3'
-        :type saveAs: str
+        :type saveAs: str, optional
         :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"`.
         :rtype: None
     """
@@ -258,7 +258,7 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
 def v2mp3() -> None:
     """Run main event loop.
 
-    - Responsible for processing events from GUI and responding with correct functionality.
+    - Responsible for processing GUI events and responding with correct functionality.
 
     ---
 

@@ -52,7 +52,7 @@
 
 ### Quick Look at _**`V2Mp3`**_
 
-![V2Mp3](./docs/v2mp3_photo.png)
+![V2Mp3](./img/v2mp3_photo.png)
 
 ---
 
@@ -65,7 +65,7 @@
 - Run the following to install using `pip`:
 
 ```python
-pip install V2Mp3
+>>> pip install V2Mp3
 ```
 
 - You should now be able to import/run _**`V2Mp3`**_ within your python environment by entering the following:
