@@ -19,9 +19,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 logFormatter = logging.Formatter(
-    '[%(asctime)s - %(levelname)s] : %(message)s\n')
+    '[%(asctime)s - %(levelname)s] : %(message)s\n', "%Y-%m-%d %H:%M:%S")
 
-logHandler = logging.FileHandler('./logs/v2mp3_log.log', 'a')
+logHandler = logging.FileHandler('./logs/OutputLog.log', 'a')
 logHandler.setFormatter(logFormatter)
 
 logger.addHandler(logHandler)
@@ -143,77 +143,85 @@ program_win: psg.Window = psg.Window(f'V2Mp3 v{__version__}',
                                      element_justification='Center')
 
 
-def dl_ytVideo(link: str, saveAs: str = f'video_{uuid(5)}.mp4') -> None:
+def dl_ytVideo(link: str, saveAs: str = None) -> None:
     """Download YouTube video found at url: `link`.
 
     ---
 
     Parameters:
-        :param link: URL of intended YouTube video download.
+        :param link: URL address of YouTube content to download.
         :type link: str
-        :param saveAs: name to save downloaded video as, defaults to f'video_{uuid(5)}.mp4'
+        :param saveAs: optional name to save downloaded video as, defaults to `None`.
         :type saveAs: str, optional
-        :returns: .mp4 file, can be found in `"./V2Mp3/video"`.
+        :returns: .mp4 file, can be found in `"~/V2Mp3/video"`.
         :rtype: None
     """
     try:
         url = YT(link)
         video = url.streams.get_highest_resolution()
+
+        if saveAs is None:
+            saveAs = f'{url.title}.mp4'
         video.download('video/', filename=saveAs)
 
         program_win['-Output-'].print(
-            f'\nSuccessfully downloaded video from YouTube: "{url.title}"!\n==> Url: {link}\n'
+            f'\nSuccessfully downloaded video from YouTube: "{url.title}"!\n==> Saved As: "{saveAs}".\n==> Content Url: {link}\n'
         )
         logger.info(
-            f'Successfully downloaded video from YouTube: "{url.title}"!\n==> Url: {link}'
+            f'Successfully downloaded video from YouTube: "{url.title}"!\nSaved As: "{saveAs}"\n==> Content Url: {link}'
         )
     except Exception as exc:
         program_win['-Output-'].print(
-            f'\n[ERROR] - Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n'
+            f'\n[ERROR] - Something went wrong during attempt to download file from address:\n==> "{link}"...\n==> Please try again!\n'
         )
         logger.error(
-            f'Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during attempt to download file from address:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
         )
 
 
-def dl_ytAudio(link: str, saveAs: str = f'audio_{uuid(5)}.mp3') -> None:
+def dl_ytAudio(link: str, saveAs: str = None) -> None:
     """Download audio from media content found at YouTube url: `link`.
 
-    - Works with both standard YouTube videos, and songs from YouTube Music addresses.
+    - Works with both standard YouTube videos, and songs from YouTube Music.
 
     ---
 
     Parameters:
         :param link: URL of the intended download source.
         :type link: str
-        :param saveAs: name to save downloaded audio as, defaults to f'audio_{uuid(5)}.mp3'
+        :param saveAs: optional name to save downloaded audio as, defaults to `None`.
         :type saveAs: str, optional
-        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"` by default.
+        :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"`.
         :rtype: None
     """
     try:
         url = YT(link)
         audio = url.streams.get_audio_only()
+
+        if saveAs is None:
+            saveAs = f'{url.title}.mp3'
         audio.download('audio/', filename=saveAs)
+
         program_win['-Output-'].print(
-            f'\nSuccessfully downloaded audio from YouTube: "{url.title}"!\n==> Url: {link}\n'
+            f'\nSuccessfully downloaded audio from YouTube: "{url.title}"!\n==> Saved As: "{saveAs}"\n==> Content Url: {link}\n'
         )
         logger.info(
-            f'Successfully downloaded audio from YouTube: "{url.title}"!\n==> Url: {link}'
+            f'Successfully downloaded audio from YouTube: "{url.title}"!\n==> Saved As: "{saveAs}"\n==> Content Url: {link}'
         )
     except Exception as exc:
         program_win['-Output-'].print(
-            f'[ERROR] - Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n'
+            f'[ERROR] - Something went wrong during attempt to download file from address:\n==> "{link}"...\n==> Please try again!\n'
         )
+
         logger.error(
-            f'Something went wrong during attempt to download file:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during attempt to download file from address:\n==> "{link}"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
         )
 
 
-def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
+def toMp3(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
     """Convert locally stored video files to .mp3 audio format.
 
-    - Works for any extension supported by ffmpeg, such as:
+    - Works for any extension supported by ffmpeg, including:
         - .aiff
         - .avi
         - .flv
@@ -231,9 +239,9 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
     Parameters:
         :param file: path to video file.
         :type file: str
-        :param saveAs: name to save resulting audio file as, defaults to f'audio_{uuid(5)}.mp3'
+        :param saveAs: optional name to save resulting audio file as, defaults to `None`.
         :type saveAs: str, optional
-        :returns: .mp3 audio file, can be found in `"./V2Mp3/audio"`.
+        :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"`.
         :rtype: None
     """
     try:
@@ -243,8 +251,12 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
         audio.write_audiofile(f'audio/{saveAs}.mp3', logger=None)
 
         program_win['-Output-'].print(
-            f'\nSuccessfully converted "{file}" to "{saveAs}.mp3"!\n')
-        logger.info(f'Successfully converted "{file}" to "{saveAs}.mp3"!')
+            f'\nSuccessfully converted "{file}" to "{saveAs}.mp3"!\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3\n'
+        )
+
+        logger.info(
+            f'Successfully converted "{file}" to "{saveAs}.mp3"!\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3'
+        )
 
     except Exception as exc:
         program_win['-Output-'].print(
@@ -258,7 +270,7 @@ def convert_local(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
 def v2mp3() -> None:
     """Run main event loop.
 
-    - Responsible for processing GUI events and responding with correct functionality.
+    - Responsible for processing GUI events and responding with desired functionality.
 
     ---
 
@@ -285,9 +297,9 @@ def v2mp3() -> None:
             program_win['-Output-'].print(
                 f"Converting File: {vals['-FileInput-']}")
             if vals['-T1_SaveInput-'] == "":
-                convert_local(vals['-FileInput-'])
+                toMp3(vals['-FileInput-'])
             else:
-                convert_local(vals['-FileInput-'], vals['-T1_SaveInput-'])
+                toMp3(vals['-FileInput-'], vals['-T1_SaveInput-'])
 
         if event == '-Download-':
             if vals['-URLInput-'] == "":

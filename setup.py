@@ -35,5 +35,5 @@ with open('requirements.txt', 'r') as fh2:
             "Topic :: Utilities",
         ],
         keywords=
-        'youtube, to, mp3, video, file, convert, converter, download, python, py, python3, audio, conversion, gui'
+        'youtube, to, mp3, video, file, convert, converter, download, python, py, python3, audio, conversion, gui, mp4, avi, mpeg, format'
     )
