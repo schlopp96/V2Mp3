@@ -33,6 +33,52 @@ appLayout: list = [
     [psg.Text('Fill Required Fields Below')], [psg.HorizontalSeparator()],
     [
         psg.Frame(
+            'YouTube Video/Audio',
+            layout=[
+                [psg.Text('Enter URL of YouTube Video to Download.')],
+                [
+                    psg.Text('URL:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
+                    psg.Input(
+                        key='-URLInput-',
+                        s=(27, 1),
+                        do_not_clear=False,
+                        tooltip=
+                        'Enter the URL of the content you wish to download.',
+                        expand_x=True),
+                    psg.VerticalSeparator(pad=5),
+                    psg.Checkbox(
+                        'Audio Only',
+                        key='-CB_AudioOnly-',
+                        auto_size_text=True,
+                        tooltip=
+                        'Choose whether to download normally (video with audio), or audio ONLY.'
+                    )
+                ],
+                [
+                    psg.Text('Save As:', s=6, justification='left'),
+                    psg.VerticalSeparator(pad=5),
+                    psg.Input(
+                        key='-T2_SaveInput-',
+                        s=(35, 1),
+                        do_not_clear=False,
+                        tooltip=
+                        'New filename of resulting mp3 file.\nLeave blank for default file name.',
+                        expand_x=True),
+                ],
+                [
+                    psg.ReadFormButton(
+                        'Start Download',
+                        button_color='green',
+                        key='-Download-',
+                        tooltip='Begin downloading content from YouTube URL.')
+                ]
+            ],
+            expand_x=True,
+            element_justification='Center')
+    ],
+    [
+        psg.Frame(
             'Mp3 Conversion',
             layout=[
                 [psg.Text('Convert Local Videos to Mp3 Audio')],
@@ -40,7 +86,8 @@ appLayout: list = [
                     psg.Text('Filepath:', s=6, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        s=(27, 1),
+                        s=(27,
+                           1),
                         key='-FileInput-',
                         do_not_clear=False,
                         tooltip=
@@ -73,53 +120,6 @@ appLayout: list = [
                         button_color='green',
                         tooltip=
                         'Submit filepath of video to convert to .mp3 format.')
-                ]
-            ],
-            expand_x=True,
-            element_justification='Center')
-    ],
-    [
-        psg.Frame(
-            'YouTube Video/Audio',
-            layout=[
-                [psg.Text('Enter URL of YouTube Video to Download.')],
-                [
-                    psg.Text('URL:', s=6, justification='left'),
-                    psg.VerticalSeparator(pad=5),
-                    psg.Input(
-                        key='-URLInput-',
-                        s=(27,
-                           1),
-                        do_not_clear=False,
-                        tooltip=
-                        'Enter the URL of the content you wish to download.',
-                        expand_x=True),
-                    psg.VerticalSeparator(pad=5),
-                    psg.Checkbox(
-                        'Audio Only',
-                        key='-CB_AudioOnly-',
-                        auto_size_text=True,
-                        tooltip=
-                        'Choose whether to download normally (video with audio), or audio ONLY.'
-                    )
-                ],
-                [
-                    psg.Text('Save As:', s=6, justification='left'),
-                    psg.VerticalSeparator(pad=5),
-                    psg.Input(
-                        key='-T2_SaveInput-',
-                        s=(35, 1),
-                        do_not_clear=False,
-                        tooltip=
-                        'New filename of resulting mp3 file.\nLeave blank for default file name.',
-                        expand_x=True),
-                ],
-                [
-                    psg.ReadFormButton(
-                        'Start Download',
-                        button_color='green',
-                        key='-Download-',
-                        tooltip='Begin downloading content from YouTube URL.')
                 ]
             ],
             expand_x=True,
@@ -270,7 +270,7 @@ def toMp3(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
 def v2mp3() -> None:
     """Run main event loop.
 
-    - Responsible for processing GUI events and responding with desired functionality.
+    - Responsible for processing GUI events and responses.
 
     ---
 
