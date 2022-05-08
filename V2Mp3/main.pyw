@@ -27,17 +27,19 @@ logHandler.setFormatter(logFormatter)
 logger.addHandler(logHandler)
 #&================================================================================#
 
-psg.theme('Dark Grey 11')
+psg.theme('DarkBlack')
 
 appLayout: list = [
-    [psg.Text('Fill Required Fields Below')], [psg.HorizontalSeparator()],
+    # Top Frame
+    [psg.Text('Fill Required Fields Below')],
+    [psg.HorizontalSeparator()],
     [
         psg.Frame(
             'YouTube Video/Audio',
             layout=[
                 [psg.Text('Enter URL of YouTube Video to Download.')],
                 [
-                    psg.Text('URL:', s=6, justification='left'),
+                    psg.Text('URL:', s=10, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-URLInput-',
@@ -49,14 +51,14 @@ appLayout: list = [
                     psg.VerticalSeparator(pad=5),
                     psg.Checkbox(
                         'Audio Only',
+                        s=8,
                         key='-CB_AudioOnly-',
-                        auto_size_text=True,
                         tooltip=
                         'Choose whether to download normally (video with audio), or audio ONLY.'
                     )
                 ],
                 [
-                    psg.Text('Save As:', s=6, justification='left'),
+                    psg.Text('Save File As:', s=10, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-T2_SaveInput-',
@@ -77,13 +79,14 @@ appLayout: list = [
             expand_x=True,
             element_justification='Center')
     ],
+    # Bottom Frame
     [
         psg.Frame(
             'Mp3 Conversion',
             layout=[
                 [psg.Text('Convert Local Videos to Mp3 Audio')],
                 [
-                    psg.Text('Filepath:', s=6, justification='left'),
+                    psg.Text('Filepath:', s=10, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         s=(27,
@@ -95,6 +98,7 @@ appLayout: list = [
                         expand_x=True),
                     psg.VerticalSeparator(pad=5),
                     psg.FileBrowse(
+                        s=10,
                         key='-FileBrowse-',
                         initial_folder='video/',
                         target=(psg.ThisRow, -2),
@@ -103,7 +107,7 @@ appLayout: list = [
                     )
                 ],
                 [
-                    psg.Text('Save As:', s=6, justification='left'),
+                    psg.Text('Save File As:', s=10, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-T1_SaveInput-',
@@ -126,14 +130,16 @@ appLayout: list = [
             element_justification='Center')
     ],
     [
-        psg.Multiline(size=(50, 30),
+        psg.Multiline(size=(60, 20),
                       key='-Output-',
                       disabled=True,
                       auto_refresh=True,
                       autoscroll=True,
                       write_only=True,
-                      expand_x=True)
-    ], [psg.Exit(button_color='red', tooltip='Exit application.')]
+                      expand_x=True,
+                      expand_y=True)
+    ],
+    [psg.Exit(button_color='red', tooltip='Exit application.')]
 ]
 
 program_win: psg.Window = psg.Window(f'V2Mp3 v{__version__}',
