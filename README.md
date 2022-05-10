@@ -108,6 +108,10 @@
 
 ---
 
+## Coming Soon
+
+- `.exe` program build so that a Python installation isn't necessary to run **_V2Mp3_**.
+
 ## Contact
 
 - If you have any questions, comments, or concerns that cannot be addressed through the [project's GitHub repository](https://github.com/schlopp96/V2Mp3), please feel free to contact me through my email address:
