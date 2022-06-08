@@ -1,6 +1,6 @@
 # V2Mp3
 
-![Logo](./img/v2mp3_logo.png)
+![Logo](./img/V2Mp3_Logo.png)
 
 ---
 
