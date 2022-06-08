@@ -1,6 +1,6 @@
 # V2Mp3
 
-![Logo](img\V2Mp3_Logo.png)
+![Logo](./img/v2mp3_logo.png)
 
 ---
 
@@ -110,7 +110,7 @@
 
 ### Quick Look at _**`V2Mp3`**_
 
-![V2Mp3](./img/V2Mp3_photo.png)
+![V2Mp3](./img/v2mp3_photo.png)
 
 ---
 
