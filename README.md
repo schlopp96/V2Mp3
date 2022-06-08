@@ -1,6 +1,6 @@
 # V2Mp3
 
-![Logo](img\V2Mp3_Logo.png)
+![Logo](./img/V2Mp3_Logo.png)
 
 ---
 
