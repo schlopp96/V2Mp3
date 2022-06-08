@@ -8,7 +8,7 @@ with open('requirements.txt', 'r') as fh2:
         name='V2Mp3',
         version='0.2.0',
         description=
-        'V2Mp3 is a simple, compact video-to-audio conversion tool with built-in YouTube video/audio download functionality.',
+        'Compact video-to-audio conversion tool with built-in YouTube video/audio download functionality.',
         url='https://github.com/schlopp96/V2Mp3',
         author='schlopp96',
         author_email='schloppdaddy@gmail.com',
