@@ -27,7 +27,7 @@ logHandler.setFormatter(logFormatter)
 logger.addHandler(logHandler)
 #&================================================================================#
 
-psg.theme('DarkBlack')
+psg.theme('DarkGrey11')
 
 appLayout: list = [
     # Top Frame
@@ -130,7 +130,7 @@ appLayout: list = [
             element_justification='Center')
     ],
     [
-        psg.Multiline(size=(60, 20),
+        psg.Multiline(size=(60, 30),
                       key='-Output-',
                       disabled=True,
                       auto_refresh=True,
@@ -146,7 +146,8 @@ program_win: psg.Window = psg.Window(f'V2Mp3 v{__version__}',
                                      layout=appLayout,
                                      auto_size_buttons=True,
                                      text_justification='Center',
-                                     element_justification='Center')
+                                     element_justification='Center',
+                                     resizable=True)
 
 
 def dl_ytVideo(link: str, saveAs: str = None) -> None:
@@ -154,13 +155,12 @@ def dl_ytVideo(link: str, saveAs: str = None) -> None:
 
     ---
 
-    Parameters:
-        :param link: URL address of YouTube content to download.
-        :type link: str
-        :param saveAs: optional name to save downloaded video as, defaults to `None`.
-        :type saveAs: str, optional
-        :returns: .mp4 file, can be found in `"~/V2Mp3/video"`.
-        :rtype: None
+    :param link: URL address of YouTube content to download.
+    :type link: :class:`str`
+    :param saveAs: optional name to save downloaded video as, defaults to `None`.
+    :type saveAs: :class:`str`, optional
+    :returns: .mp4 file, can be found in `"~/V2Mp3/video"`.
+    :rtype: None
     """
     try:
         url = YT(link)
@@ -192,13 +192,12 @@ def dl_ytAudio(link: str, saveAs: str = None) -> None:
 
     ---
 
-    Parameters:
-        :param link: URL of the intended download source.
-        :type link: str
-        :param saveAs: optional name to save downloaded audio as, defaults to `None`.
-        :type saveAs: str, optional
-        :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"`.
-        :rtype: None
+    :param link: URL of the intended download source.
+    :type link: :class:`str`
+    :param saveAs: optional name to save downloaded audio as, defaults to `None`.
+    :type saveAs: :class:`str`, optional
+    :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"`.
+    :rtype: None
     """
     try:
         url = YT(link)
@@ -242,13 +241,12 @@ def toMp3(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
 
     ---
 
-    Parameters:
-        :param file: path to video file.
-        :type file: str
-        :param saveAs: optional name to save resulting audio file as, defaults to `None`.
-        :type saveAs: str, optional
-        :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"`.
-        :rtype: None
+    :param file: path to video file.
+    :type file: :class:`str`
+    :param saveAs: optional name to save resulting audio file as, defaults to `None`.
+    :type saveAs: :class:`str`, optional
+    :returns: .mp3 audio file, can be found in `"~/V2Mp3/audio"` by default.
+    :rtype: None
     """
     try:
         video = mv.VideoFileClip(file)
@@ -257,32 +255,31 @@ def toMp3(file: str, saveAs: str = f'audio_{uuid(5)}') -> None:
         audio.write_audiofile(f'audio/{saveAs}.mp3', logger=None)
 
         program_win['-Output-'].print(
-            f'\nSuccessfully converted "{file}" to "{saveAs}.mp3"!\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3\n'
+            f'\nSuccessfully converted video to audio!\n==> Video file converted: "{file}"\n==> Resulting audio file: "{saveAs}.mp3"\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3\n'
         )
 
         logger.info(
-            f'Successfully converted "{file}" to "{saveAs}.mp3"!\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3'
+            f'\nSuccessfully converted video to audio!\n==> Video file converted: "{file}"\n==> Resulting audio file: "{saveAs}.mp3"\n==> Save Location: ~/V2Mp3/audio/{saveAs}.mp3\n'
         )
 
     except Exception as exc:
         program_win['-Output-'].print(
-            f'\n[ERROR] - Something went wrong during conversion of "{file}" ==> "{saveAs}.mp3"...\n==> Please try again!\n'
+            f'\n[ERROR] - Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{file}"\n==> Intended conversion output: "{saveAs}.mp3"\n\n==> Exception:\n==> {exc}\n\n==> Please try again!\n'
         )
         logger.error(
-            f'Something went wrong during conversion of "{file}" ==> "{saveAs}.mp3"...\n==> Please try again!\n\n==> Exception:\n==> {exc}'
+            f'Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{file}"\n==> Intended conversion output: "{saveAs}.mp3"\n\n==> Exception:\n==> {exc}\n\n==> Please try again!\n'
         )
 
 
 def v2mp3() -> None:
-    """Run main event loop.
+    """Program entry point.
 
     - Responsible for processing GUI events and responses.
 
     ---
 
-    Parameters:
-        :returns: Program window.
-        :rtype: None
+    :returns: Program window.
+    :rtype: None
     """
     while True:
         event, vals = program_win.read()
