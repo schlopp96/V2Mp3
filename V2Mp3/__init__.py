@@ -1,1 +1,1 @@
-from .main import v2mp3
+from .main import main as v2mp3
