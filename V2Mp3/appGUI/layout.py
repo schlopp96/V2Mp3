@@ -1,10 +1,12 @@
 import PySimpleGUI as psg
 
+__version__ = '0.2.0'
+
 theme = psg.theme('DarkGrey11')
 
 appLayout: list = [
     # Top Text
-    [psg.Text('Welcome to V2Mp3')],
+    [psg.Text(f'Welcome to V2Mp3 v{__version__}')],
     [psg.HorizontalSeparator()],
     # Download Frame
     [

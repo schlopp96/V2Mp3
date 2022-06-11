@@ -1,7 +1,7 @@
 import logging
 
 
-def applogger(name):
+def setLogger(name) -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 

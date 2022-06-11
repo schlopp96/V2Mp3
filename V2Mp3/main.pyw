@@ -9,7 +9,7 @@ sys.path.insert(0, dirname(
 
 chdir(dirname(__file__))
 
-from V2Mp3.appEvents.events import event_loop
+from V2Mp3.appEvents.events import _event_loop
 
 #$ Establish logger
 #&================================================================================#
@@ -25,7 +25,8 @@ def main() -> None:
     :returns: Program layout.window.
     :rtype: None
     """
-    event_loop()
+
+    _event_loop()
 
 
 if __name__ == '__main__':

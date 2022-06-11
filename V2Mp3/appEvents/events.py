@@ -1,16 +1,16 @@
 import os
 import os.path
-from posixpath import dirname
 from secrets import token_urlsafe as uuid
+
 import moviepy.editor as mv
 import PySimpleGUI as psg
 from pytube import YouTube as YT
 from V2Mp3.appGUI import layout
-from V2Mp3.appLogger.appLogger import applogger
+from V2Mp3.appLogger.appLogger import setLogger
 
 __version__ = '0.2.0'
 
-logger = applogger("V2Mp3")
+logger = setLogger("V2Mp3")
 
 _textborder: str = "=".ljust((78),
                              "=")  # Text border for log file organization.
@@ -25,7 +25,7 @@ def dl_ytVideo(link: str, save_as: str = None) -> None:
     :type link: :class:`str`
     :param save_as: optional name to save downloaded video as, defaults to `None`.
     :type save_as: :class:`str`, optional
-    :returns: .mp4 file, can be found in `"~/V2Mp3/downloads/video"`.
+    :returns: .mp4 file, can be found in `"~/V2Mp3/downloads/videos"`.
     :rtype: None
     """
     try:
@@ -34,7 +34,7 @@ def dl_ytVideo(link: str, save_as: str = None) -> None:
 
         if save_as is None:
             save_as = f'{url.title}.mp4'
-        video.download('../downloads/video/', filename=save_as)
+        video.download('./downloads/videos/', filename=save_as)
 
         layout.window['-Output-'].print(
             f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{url.title}"\n==> Saved As: "{save_as}".\n==> Content URL: {link}\n'
@@ -71,7 +71,7 @@ def dl_ytAudio(link: str, save_as: str = None) -> None:
 
         if save_as is None:
             save_as = f'{url.title}.mp3'
-        audio.download('../downloads/audio/', filename=save_as)
+        audio.download('./downloads/audio/', filename=save_as)
 
         layout.window['-Output-'].print(
             f'\nSuccessfully downloaded audio from YouTube!\n==> Audio Downloaded: "{url.title}"\n==> Saved As: "{save_as}"\n==> Content URL: {link}\n'
@@ -128,7 +128,7 @@ def toMp3(file: str, save_as: str = None) -> None:
         video = mv.VideoFileClip(file)
         audio = video.audio
 
-        audio.write_audiofile(f'../downloads/audio/{save_as}', logger=None)
+        audio.write_audiofile(f'./downloads/audio/{save_as}', logger=None)
 
         layout.window['-Output-'].print(
             f'\nSuccessfully converted video to audio!\n==> File converted: "{file}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: ~/V2Mp3/audio/{save_as}\n'
@@ -148,7 +148,7 @@ def toMp3(file: str, save_as: str = None) -> None:
         )
 
 
-def event_loop() -> None:
+def _event_loop() -> None:
     """Processing for application events.
 
     ---
@@ -157,7 +157,8 @@ def event_loop() -> None:
     :rtype: None
     """
 
-    logger.info(f'Started application...\n==> Welcome to V2Mp3 v{__version__}!')
+    logger.info(
+        f'Started application...\n==> Welcome to V2Mp3 v{__version__}!')
 
     while True:
         event, vals = layout.window.read()
@@ -202,4 +203,4 @@ def event_loop() -> None:
                 dl_ytVideo(vals['-URLInput-'], vals['-T2_SaveInput-'] + '.mp4')
 
     layout.window.Close()
-    logger.info(f'Exiting application...\n{_textborder}\n')
+    logger.info(f'Exiting application...\n{_textborder}')

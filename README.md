@@ -44,8 +44,7 @@
 - You should now be able to import/run _**`V2Mp3`**_ within your python environment by entering the following:
 
   ```python
-  >>> from V2Mp3 import v2mp3
-  >>> v2mp3() # open program window.
+  >>> import V2Mp3 # open program window.
   ...
   ```
 
@@ -59,25 +58,24 @@
 
 1. Start by doing one of two things:
 
-   - _**A.**_ Download source code **\*.zip** archive from the V2Mp3 GitHub repo ["releases"](https://github.com/schlopp96/V2Mp3) tab, and extract the contents to your desired installation directory.
+   - _**A.**_ Download source code **\*.zip** archive from the V2Mp3 GitHub repo ["releases"](https://github.com/schlopp96/V2Mp3/releases/latest) tab, and extract the contents to your desired installation directory.
    - _**B.**_ Clone the repo with the git client of your choice by entering the following command:
      - `git clone https://github.com/schlopp96/V2Mp3/releases/latest/`
 
 2. Navigate to directory containing extracted contents, and open said directory within a terminal.
 
 3. Install all dependencies for this package by entering the following command:
+
    - `pip install -r requirements.txt`
 
-- **Optional:**
-
-  - Move the _**`V2Mp3-vx.x.x`**_ directory to your global Python 3rd-party package installation directory to be able to import _**V2Mp3**_ like any other module:
-    - `"path/to/python/Lib/site-packages/HERE"`
+4. **(OPTIONAL)**
+   - Move the _**`V2Mp3-vx.x.x`**_ directory to your global Python 3rd-party package installation directory to be able to import _**V2Mp3**_ like any other module:
+     - `"path/to/python/Lib/site-packages/HERE"`
 
 - You should now be able to import/run _**V2Mp3**_ within your python environment by entering the following:
 
 ```python
->>> from V2Mp3 import v2mp3
->>> v2mp3() # open program window.
+>>> import v2mp3 # open program window.
 ...
 ```
 
@@ -106,7 +104,7 @@
 - Choose whether to download the video as normal, or just the audio from the video.
 - Once ready, click the "**Download**" button to begin.
 - You can find your downloaded videos within the _**V2Mp3**_ installation directory:
-  - `"~/V2Mp3/video"`
+  - `"~/V2Mp3/videos"`
 
 ### Quick Look at _**`V2Mp3`**_
 
@@ -116,7 +114,7 @@
 
 ## Coming Soon
 
-- **\*.exe** program build so that a Python installation isn't necessary to run **_V2Mp3_**.
+- **\*.exe** program build so that a Python env isn't necessary to run **_V2Mp3_**.
 
 ---
 
