@@ -10,7 +10,7 @@ from V2Mp3.appLogger.appLogger import setLogger
 
 __version__ = '0.2.0'
 
-logger = setLogger("V2Mp3")
+logger = setLogger("V2Mp3") # Set up logger
 
 _textborder: str = "=".ljust((78),
                              "=")  # Text border for log file organization.
@@ -180,7 +180,9 @@ class Events:
                 f'Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{filepath}"\n==> Intended conversion output: "{save_as}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
+
 events = Events()
+
 
 def _event_loop() -> None:
     """Processing for application events.
@@ -232,9 +234,11 @@ def _event_loop() -> None:
                 else:
                     events.dl_ytVideo(vals['-URLInput-'])
             elif vals['-CB_AudioOnly-']:
-                events.dl_ytAudio(vals['-URLInput-'], vals['-T2_SaveInput-'] + '.mp3')
+                events.dl_ytAudio(vals['-URLInput-'],
+                                  vals['-T2_SaveInput-'] + '.mp3')
             else:
-                events.dl_ytVideo(vals['-URLInput-'], vals['-T2_SaveInput-'] + '.mp4')
+                events.dl_ytVideo(vals['-URLInput-'],
+                                  vals['-T2_SaveInput-'] + '.mp4')
 
     layout.window.Close()  # Close window and return resources to OS
     logger.info(f'Exiting application...\n{_textborder}')

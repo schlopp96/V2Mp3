@@ -101,16 +101,21 @@ appLayout: list = [
             expand_x=True,
             element_justification='Center')
     ],
-    # Event Output
+    # Event Output Frame
     [
-        psg.Multiline(size=(70, 30),
-                      key='-Output-',
-                      disabled=True,
-                      auto_refresh=True,
-                      autoscroll=True,
-                      write_only=True,
-                      expand_x=True,
-                      expand_y=True)
+        psg.Frame(None,
+                  layout=[[
+                      psg.Multiline(size=(70, 30),
+                                    key='-Output-',
+                                    disabled=True,
+                                    auto_refresh=True,
+                                    autoscroll=True,
+                                    write_only=True,
+                                    expand_x=True,
+                                    expand_y=True)
+                  ]],
+                  expand_x=True,
+                  expand_y=True)
     ],
     [psg.Exit(button_color='red', tooltip='Exit application.')]
 ]

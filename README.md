@@ -89,6 +89,22 @@
 
 > Using _**`V2Mp3`**_ is generally straightforward, with directions and tooltips built in to the GUI describing what to do if you're confused.
 
+- You can quickly start _**`V2Mp3`**_ using this simple CLI command:
+
+```shell
+  v2mp3
+```
+
+- Other ways to start V2Mp3 include:
+
+  - Entering `python -m V2Mp3` in a terminal.
+  - Importing _**`V2Mp3`**_ in a python environment and calling _`V2Mp3.v2mp3()`_ from within that environment (as illustrated above).
+  - Opening `"~/V2Mp3/main.pyw"` from a file explorer.
+
+---
+
+## Structure
+
 ### **First Containing Frame**
 
 - Home to the _**YouTube**_ download section

@@ -17,6 +17,7 @@ with open('requirements.txt', 'r') as fh2:
         packages=find_packages(),
         include_package_data=True,
         install_requires=[reqs],
+        entry_points={'gui_scripts': ['v2mp3=V2Mp3.main:main']},
         classifiers=[
             "Development Status :: 3 - Alpha",
             "Intended Audience :: Education",

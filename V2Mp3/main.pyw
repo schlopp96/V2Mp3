@@ -22,11 +22,11 @@ def main() -> None:
 
     ---
 
-    :returns: Program layout.window.
+    :returns: Program window.
     :rtype: None
     """
 
-    _event_loop()
+    return _event_loop()
 
 
 if __name__ == '__main__':
