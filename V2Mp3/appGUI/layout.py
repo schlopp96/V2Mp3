@@ -120,5 +120,4 @@ window: psg.Window = psg.Window('V2Mp3',
                                 auto_size_buttons=True,
                                 text_justification='Center',
                                 element_justification='Center',
-                                resizable=True,
-                                finalize=True)
+                                resizable=True)

@@ -44,7 +44,8 @@
 - You should now be able to import/run _**`V2Mp3`**_ within your python environment by entering the following:
 
   ```python
-  >>> import V2Mp3 # open program window.
+  >>> from V2Mp3 import v2mp3
+  >>> v2mp3() # open program window.
   ...
   ```
 
@@ -75,7 +76,8 @@
 - You should now be able to import/run _**V2Mp3**_ within your python environment by entering the following:
 
 ```python
->>> import v2mp3 # open program window.
+  >>> from V2Mp3 import v2mp3
+  >>> v2mp3() # open program window.
 ...
 ```
 
@@ -89,22 +91,22 @@
 
 ### **First Containing Frame**
 
-- Contains the section for conversion of your local video files.
-- Use the "Browse" button to choose a video file you wish to convert to audio.
-- Once you've chosen a video, click the "**Convert File**" button at the bottom of the first frame.
-- The text output window at the bottom of the application window will display whether or not the conversion was successful.
-- Newly converted .mp3 audio files can be found within the _**V2Mp3**_ installation directory:
-  - `"~/V2Mp3/audio"`
-
-### **Second Containing Frame**
-
 - Home to the _**YouTube**_ download section
 - Enter your desired _**YouTube**_ video's URL address in the input field.
   - Also works with _**YouTube Music**_ addresses.
 - Choose whether to download the video as normal, or just the audio from the video.
 - Once ready, click the "**Download**" button to begin.
 - You can find your downloaded videos within the _**V2Mp3**_ installation directory:
-  - `"~/V2Mp3/videos"`
+  - `"~/V2Mp3/downloads/videos"`
+
+### **Second Containing Frame**
+
+- Contains the section for conversion of your local video files.
+- Use the "Browse" button to choose a video file you wish to convert to audio.
+- Once you've chosen a video, click the "**Convert File**" button at the bottom of the first frame.
+- The text output window at the bottom of the application window will display whether or not the conversion was successful.
+- Newly converted .mp3 audio files can be found within the _**V2Mp3**_ installation directory:
+  - `"~/V2Mp3/downloads/audio"`
 
 ### Quick Look at _**`V2Mp3`**_
 
