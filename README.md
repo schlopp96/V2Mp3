@@ -126,7 +126,7 @@
 
 ### Quick Look at _**`V2Mp3`**_
 
-![V2Mp3](./img/v2mp3_photo.png)
+![V2Mp3](./img/v2mp3_gui.png)
 
 ---
 
