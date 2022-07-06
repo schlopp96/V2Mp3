@@ -1,6 +1,6 @@
 import PySimpleGUI as psg
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 theme = psg.theme('DarkGrey11')
 

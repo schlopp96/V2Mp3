@@ -8,7 +8,7 @@ from pytube import YouTube as YT
 from V2Mp3.appGUI import layout
 from V2Mp3.appLogger.appLogger import setLogger
 
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 logger = setLogger("V2Mp3") # Set up logger
 
