@@ -10,7 +10,7 @@ from V2Mp3.appLogger.appLogger import setLogger
 
 __version__ = '0.3.0'
 
-logger = setLogger("V2Mp3") # Set up logger
+logger = setLogger("V2Mp3")  # Set up logger
 
 _textborder: str = "=".ljust((78),
                              "=")  # Text border for log file organization.
@@ -21,18 +21,18 @@ class Events:
 
     - Contains the following class methods:
 
-        - :function:`dl_ytVideo(self, url: str, save_as: str = None) -> None`
+        - :func:`dl_ytVideo(self, url: str, save_as: str = None) -> None`
             - Downloads a YouTube video to the local system.
-            - If :param:`save_as` is :NoneType:`None`, the default file name will be used.
+            - If :param:`save_as` is None, the default file name will be used.
 
-        - :function:`dl_ytAudio(self, url: str, save_as: str = None) -> None`
+        - :func:`dl_ytAudio(self, url: str, save_as: str = None) -> None`
             - Downloads a YouTube video's audio to the local system.
-            - If :param:`save_as` is :NoneType:`None`, the default file name will be used.
+            - If :param:`save_as` is None, the default file name will be used.
             - Works with both standard YouTube videos and videos with audio only.
 
-        - :function:`to_mp3(self, filepath: str, save_as: str = None) -> None`
+        - :func:`to_mp3(self, filepath: str, save_as: str = None) -> None`
             - Converts a locally stored video file to an mp3 file.
-            - If :param:`save_as` is :NoneType:`None`, the default file name will be used.
+            - If :param:`save_as` is None, the default file name will be used.
             - Works for any file extension supported by ffmpeg.
 
     """
@@ -40,16 +40,16 @@ class Events:
     def dl_ytVideo(self, url: str, save_as: str = None) -> None:
         """Download video found at YouTube URL: :class:`url`.
 
-        - If :param:`save_as` is :NoneType:`None`, the default file name will be used.
+        - If :param:`save_as` is None, the default file name will be used.
 
         ---
 
         :param url: URL address of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded video as, defaults to :NoneType:`None`.
+        :param save_as: optional name to save downloaded video as, defaults to None.
         :type save_as: :class:`str`, optional
         :returns: .mp4 file, can be found in `"~/V2Mp3/downloads/videos"`.
-        :rtype: :NoneType:`None`
+        :rtype: None
         """
 
         try:
@@ -82,16 +82,16 @@ class Events:
 
         - Works with both standard YouTube videos and videos with audio only (e.g. YouTube Music links).
 
-        - If :param:`save_as` is :NoneType:`None`, the default file name will be used.
+        - If :param:`save_as` is None, the default file name will be used.
 
         ---
 
         :param url: URL address of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded audio as, defaults to :NoneType:`None`.
+        :param save_as: optional name to save downloaded audio as, defaults to None.
         :type save_as: :class:`str`, optional
         :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"`.
-        :rtype: :NoneType:`None`
+        :rtype: None
         """
 
         try:
@@ -143,10 +143,10 @@ class Events:
 
         :param filepath: path to video file.
         :type filepath: :class:`str`
-        :param save_as: optional name to save resulting audio file as, defaults to :NoneType:`None`.
+        :param save_as: optional name to save resulting audio file as, defaults to None.
         :type save_as: :class:`str`, optional
         :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"` by default.
-        :rtype: :NoneType:`None`
+        :rtype: None
         """
 
         try:

@@ -72,7 +72,7 @@ appLayout: list = [
                     psg.FileBrowse(
                         s=10,
                         key='-FileBrowse-',
-                        initial_folder='./downloads/video/',
+                        initial_folder='./downloads/videos/',
                         target=(psg.ThisRow, -2),
                         tooltip=
                         'Browse local system storage for video file to convert to .mp3 formatting.'
@@ -100,6 +100,20 @@ appLayout: list = [
             ],
             expand_x=True,
             element_justification='Center')
+    ],
+    # Progress Bar
+    [
+        psg.Frame(None,
+                  layout=[[
+                      psg.ProgressBar(style='clam',
+                                      k='-ProgressBar-',
+                                      expand_x=True,
+                                      max_value=100,
+                                      orientation='vertical',
+                                      s=(1, 30))
+                  ]],
+                  expand_x=True,
+                  expand_y=True)
     ],
     # Event Output Frame
     [
