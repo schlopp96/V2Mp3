@@ -1,5 +1,6 @@
 import os
 import os.path
+from posixpath import abspath
 from secrets import token_urlsafe as uuid
 
 import moviepy.editor as mv
@@ -23,32 +24,38 @@ class Events:
 
         - :func:`dl_ytVideo(self, url: str, save_as: str = None) -> None`
             - Downloads a YouTube video to the local system.
-            - If :param:`save_as` is None, the default file name will be used.
+            - If :param:`save_as` is `None`, the default file name will be used.
 
         - :func:`dl_ytAudio(self, url: str, save_as: str = None) -> None`
             - Downloads a YouTube video's audio to the local system.
-            - If :param:`save_as` is None, the default file name will be used.
+            - If :param:`save_as` is `None`, the default file name will be used.
             - Works with both standard YouTube videos and videos with audio only.
 
         - :func:`to_mp3(self, filepath: str, save_as: str = None) -> None`
             - Converts a locally stored video file to an mp3 file.
-            - If :param:`save_as` is None, the default file name will be used.
-            - Works for any file extension supported by ffmpeg.
+            - If :param:`save_as` is `None`, the default file name will be used.
+            - Works for any file extension supported by `ffmpeg`.
 
     """
 
-    def dl_ytVideo(self, url: str, save_as: str = None) -> None:
+    def dl_ytVideo(self,
+                   url: str,
+                   save_as: str | None = None,
+                   save_to: str | None = None) -> None:
         """Download video found at YouTube URL: :class:`url`.
 
-        - If :param:`save_as` is None, the default file name will be used.
+        - If :param:`save_as` is `None`, the default file name will be used.
+        - If :param:`save_to` is `None`, the default file location will be used: `"~/V2Mp3/downloads/videos"`.
 
         ---
 
         :param url: URL address of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded video as, defaults to None.
+        :param save_as: optional name to save downloaded video as, defaults to None
         :type save_as: :class:`str`, optional
-        :returns: .mp4 file, can be found in `"~/V2Mp3/downloads/videos"`.
+        :param save_to: optional path to save download to, defaults to None
+        :type save_to: :class:`str` | None, optional
+        :returns: downloaded YouTube video file, can be found in `"~/V2Mp3/downloads/videos"` by default
         :rtype: None
         """
 
@@ -60,14 +67,17 @@ class Events:
             if save_as is None:
                 save_as = f'{yt_url.title}.mp4'  # Set default save name.
 
-            video.download('./downloads/videos/',
-                           filename=save_as)  # Download video.
+            if save_to is None:
+                save_to = abspath(
+                    './downloads/videos')  # Set default save location.
+
+            video.download(save_to, filename=save_as)  # Download video.
 
             layout.window['-Output-'].print(
-                f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}".\n==> Content URL: {url}\n'
+                f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
             logger.info(
-                f'Successfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Content URL: {url}'
+                f'Successfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
         except Exception as exc:
             layout.window['-Output-'].print(
@@ -77,20 +87,27 @@ class Events:
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
-    def dl_ytAudio(self, url: str, save_as: str = None) -> None:
-        """Download audio from media content found at YouTube URL: :class:`url`.
+    def dl_ytAudio(self,
+                   url: str,
+                   save_as: str | None = None,
+                   save_to: str | None = None) -> None:
+        """Download audio from media content found at YouTube link: :param:`url`.
 
         - Works with both standard YouTube videos and videos with audio only (e.g. YouTube Music links).
 
-        - If :param:`save_as` is None, the default file name will be used.
+        - If :param:`save_as` is `None`, the default file name will be used.
+        - If :param:`save_to` is `None`, the default file location will be used: `"~/V2Mp3/downloads/audio"`.
+
 
         ---
 
-        :param url: URL address of YouTube content to download.
+        :param url: url of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded audio as, defaults to None.
+        :param save_as: optional name to save downloaded audio as, defaults to None
         :type save_as: :class:`str`, optional
-        :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"`.
+        :param save_to: optional path to save download to, defaults to None
+        :type save_to: :class:`str` | None, optional
+        :returns: downloaded YouTube audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
         :rtype: None
         """
 
@@ -101,14 +118,17 @@ class Events:
             if save_as is None:
                 save_as = f'{yt_url.title}.mp3'  # Set default file name.
 
-            audio.download('./downloads/audio/',
-                           filename=save_as)  # Download audio
+            if save_to is None:
+                save_to = abspath(
+                    './downloads/audio')  # Set default save location.
+
+            audio.download(save_to, filename=save_as)  # Download audio
 
             layout.window['-Output-'].print(
-                f'\nSuccessfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Content URL: {url}\n'
+                f'\nSuccessfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
             logger.info(
-                f'Successfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Content URL: {url}'
+                f'Successfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
         except Exception as exc:
             layout.window['-Output-'].print(
@@ -119,12 +139,19 @@ class Events:
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
-    def toMp3(self, filepath: str, save_as: str = None) -> None:
+    def toMp3(self,
+              filepath: str,
+              save_as: str | None = None,
+              save_to: str | None = None) -> None:
         """Convert locally stored video files to .mp3 audio format.
 
-        - Can optionally save file with custom filename by passing desired filename to :class:`save_as` parameter.
+        - Can optionally save file with custom filename by passing desired filename to :param:`save_as` parameter.
+            - If :param:`save_as` is `None`, the default file name will be used.
 
-        - Works for any file extension supported by ffmpeg, including:
+        - Can optionally save file to custom location by passing desired filepath to :param:`save_to` parameter.
+            - If :param:`save_to` is `None`, the default filepath will be used: `"~/V2Mp3/downloads/audio"`.
+
+        - Works for any file extension supported by `ffmpeg`, including:
             - .aiff
             - .avi
             - .flv
@@ -137,38 +164,44 @@ class Events:
             - .wmv
             - many others.
 
-        - See <https://ffmpeg.org/general.html#Video-Codecs> for a full list of supported video codecs.
+        - See https://ffmpeg.org/general.html#Video-Codecs for a full list of supported video codecs.
 
         ---
 
         :param filepath: path to video file.
         :type filepath: :class:`str`
-        :param save_as: optional name to save resulting audio file as, defaults to None.
-        :type save_as: :class:`str`, optional
-        :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"` by default.
+        :param save_as: optional name to save resulting audio file as, defaults to None
+        :type save_as: :class:`str` | None, optional
+        :param save_to: optional path to save resulting audio file to, defaults to None
+        :type save_to: :class:`str` | None, optional
+        :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
         :rtype: None
         """
 
         try:
-            if save_as is None:
+            if save_as is None:  # If no save name is provided, use default.
                 basename: str = os.path.basename(
                     filepath)  # Get file name from path.
                 save_as = f'{os.path.splitext(basename)[0]}_{uuid(3)}.mp3'  # Generate random 5-character uuid for file name & add .mp3 extension
             else:
                 save_as = f'{save_as}.mp3'  # Add .mp3 extension
 
+            if save_to is None:
+                save_to = abspath(
+                    './downloads/audio')  # Set default save location.
+
             video = mv.VideoFileClip(filepath)  # Load video file
             audio = video.audio  # Extract audio from video
 
-            audio.write_audiofile(f'./downloads/audio/{save_as}',
+            audio.write_audiofile(f'{save_to}/{save_as}',
                                   logger=None)  # Write audio to file.
 
             layout.window['-Output-'].print(
-                f'\nSuccessfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: ~/V2Mp3/audio/{save_as}\n'
+                f'\nSuccessfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n'
             )
 
             logger.info(
-                f'Successfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: ~/V2Mp3/audio/{save_as}'
+                f'Successfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"'
             )
 
         except Exception as exc:
@@ -184,7 +217,7 @@ class Events:
 events = Events()
 
 
-def _event_loop() -> None:
+def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
     """Processing for application events.
 
     ---
@@ -205,20 +238,6 @@ def _event_loop() -> None:
         if event in [psg.WIN_CLOSED, 'Exit']:
             break
 
-        if event == '-ConvertToMp3-':
-            if vals['-FileInput-'] == "":
-                psg.popup('ERROR',
-                          '- Input must NOT be blank! -',
-                          keep_on_top=True)
-                logger.warning('Entry can\'t be blank!')
-                continue
-            layout.window['-Output-'].print(
-                f"Converting File: {vals['-FileInput-']}")
-            if vals['-T1_SaveInput-'] == "":
-                events.toMp3(vals['-FileInput-'])
-            else:
-                events.toMp3(vals['-FileInput-'], vals['-T1_SaveInput-'])
-
         if event == '-Download-':
             if vals['-URLInput-'] == "":
                 psg.popup('ERROR',
@@ -226,19 +245,59 @@ def _event_loop() -> None:
                           keep_on_top=True)
                 logger.warning('Entry can\'t be blank!')
                 continue
+
             layout.window['-Output-'].print(
                 f"Downloading File: {vals['-URLInput-']}")
-            if vals['-T2_SaveInput-'] == "":
+
+            if vals['-YTSaveAs-'] == "" and vals['-YTSaveTo-'] == "":
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'])
                 else:
                     events.dl_ytVideo(vals['-URLInput-'])
-            elif vals['-CB_AudioOnly-']:
-                events.dl_ytAudio(vals['-URLInput-'],
-                                  vals['-T2_SaveInput-'] + '.mp3')
+            elif vals['-YTSaveAs-'] == "":
+                if vals['-CB_AudioOnly-']:
+                    events.dl_ytAudio(vals['-URLInput-'],
+                                      save_to=vals['-YTSaveTo-'])
+                else:
+                    events.dl_ytVideo(vals['-URLInput-'],
+                                      save_to=vals['-YTSaveTo-'])
+            elif vals['-YTSaveTo-'] == "":
+                if vals['-CB_AudioOnly-']:
+                    events.dl_ytAudio(vals['-URLInput-'],
+                                      save_as=vals['-YTSaveAs-'] + '.mp3')
+                else:
+                    events.dl_ytVideo(vals['-URLInput-'],
+                                      save_as=vals['-YTSaveAs-'] + '.mp4')
             else:
-                events.dl_ytVideo(vals['-URLInput-'],
-                                  vals['-T2_SaveInput-'] + '.mp4')
+                if vals['-CB_AudioOnly-']:
+                    events.dl_ytAudio(vals['-URLInput-'],
+                                      save_as=vals['-YTSaveAs-'] + '.mp3',
+                                      save_to=vals['-YTSaveTo-'])
+                else:
+                    events.dl_ytVideo(vals['-URLInput-'],
+                                      save_as=vals['-YTSaveAs-'] + '.mp4',
+                                      save_to=vals['-YTSaveTo-'])
+
+        if event == '-ConvertToMp3-':
+            if vals['-FileInput-'] == "":
+                psg.popup('ERROR',
+                          '- Input must NOT be blank! -',
+                          keep_on_top=True)
+                logger.warning('Entry can\'t be blank!')
+                continue
+
+            layout.window['-Output-'].print(
+                f"Converting File: {vals['-FileInput-']}")
+
+            if vals['-Mp3SaveAs-'] == "" and vals['-Mp3SaveTo-'] == "":
+                events.toMp3(vals['-FileInput-'])
+            elif vals['-Mp3SaveTo-'] == "":
+                events.toMp3(vals['-FileInput-'], save_as=vals['-Mp3SaveAs-'])
+            elif vals['-Mp3SaveAs-'] == "":
+                events.toMp3(vals['-FileInput-'], save_to=vals['-Mp3SaveTo-'])
+            else:
+                events.toMp3(vals['-FileInput-'], vals['-Mp3SaveAs-'],
+                             vals['-Mp3SaveTo-'])
 
     layout.window.Close()  # Close window and return resources to OS
     logger.info(f'Exiting application...\n{_textborder}')

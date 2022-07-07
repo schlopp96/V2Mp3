@@ -7,12 +7,12 @@ from os.path import dirname
 sys.path.insert(0, dirname(
     dirname(__file__)))  # Ensure main module can be found by Python.
 
-chdir(dirname(__file__))
+chdir(dirname(
+    __file__))  # Set current working directory to the directory of this file.
 
 from V2Mp3.appEvents.events import _event_loop
 
-#$ Establish logger
-#&================================================================================#
+#&============================================================================#
 
 
 def main() -> None:

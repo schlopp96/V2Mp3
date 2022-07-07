@@ -15,7 +15,7 @@ appLayout: list = [
             layout=[
                 [psg.Text('Enter URL of YouTube Video to Download.')],
                 [
-                    psg.Text('URL:', s=7, justification='left'),
+                    psg.Text('URL:', s=8, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-URLInput-',
@@ -23,28 +23,45 @@ appLayout: list = [
                         tooltip=
                         'Enter the URL of the content you wish to download.',
                         expand_x=True),
+                ],
+                [
+                    psg.Text('Save Path:', s=8, justification='left'),
                     psg.VerticalSeparator(pad=5),
-                    psg.Checkbox(
-                        'Audio Only',
-                        s=8,
-                        key='-CB_AudioOnly-',
-                        tooltip=
-                        'Choose whether to download normally (video with audio), or audio ONLY.'
+                    psg.Input(key='-YTSaveTo-',
+                              do_not_clear=False,
+                              tooltip='Location to save downloaded file.',
+                              expand_x=True),
+                    psg.VerticalSeparator(pad=5),
+                    psg.FolderBrowse(
+                        s=10,
+                        key='-GetYTSaveTo-',
+                        initial_folder='./downloads/videos/',
+                        target=(psg.ThisRow,
+                                -2),
+                        tooltip='Browse for location to save YouTube download.'
                     )
                 ],
                 [
-                    psg.Text('Save As:', s=7, justification='left'),
+                    psg.Text('Save As:', s=8, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        key='-T2_SaveInput-',
+                        key='-YTSaveAs-',
                         do_not_clear=False,
                         tooltip=
                         'New filename of resulting mp3 file.\nLeave blank for default file name.',
                         expand_x=True),
                 ],
                 [
+                    psg.Checkbox(
+                        'Audio Only',
+                        key='-CB_AudioOnly-',
+                        tooltip=
+                        'Choose whether to download normally (video with audio), or audio ONLY.'
+                    )
+                ],
+                [
                     psg.ReadFormButton(
-                        'Start Download',
+                        'Download',
                         button_color='green',
                         key='-Download-',
                         tooltip='Begin downloading content from YouTube URL.')
@@ -60,7 +77,7 @@ appLayout: list = [
             layout=[
                 [psg.Text('Convert Local Videos to Mp3 Audio')],
                 [
-                    psg.Text('Filepath:', s=7, justification='left'),
+                    psg.Text('Filepath:', s=8, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
                         key='-FileInput-',
@@ -71,7 +88,7 @@ appLayout: list = [
                     psg.VerticalSeparator(pad=5),
                     psg.FileBrowse(
                         s=10,
-                        key='-FileBrowse-',
+                        key='-VideoFileBrowse-',
                         initial_folder='./downloads/videos/',
                         target=(psg.ThisRow, -2),
                         tooltip=
@@ -79,10 +96,26 @@ appLayout: list = [
                     )
                 ],
                 [
-                    psg.Text('Save As:', s=7, justification='left'),
+                    psg.Text('Save Path:', s=8, justification='left'),
+                    psg.VerticalSeparator(pad=5),
+                    psg.Input(key='-Mp3SaveTo-',
+                              do_not_clear=False,
+                              tooltip='Location to save mp3 file.',
+                              expand_x=True),
+                    psg.VerticalSeparator(pad=5),
+                    psg.FolderBrowse(
+                        s=10,
+                        key='-GetMp3SaveTo-',
+                        initial_folder='./downloads/audio/',
+                        target=(psg.ThisRow,
+                                -2),
+                        tooltip='Browse for location to save mp3 file to.')
+                ],
+                [
+                    psg.Text('Save As:', s=8, justification='left'),
                     psg.VerticalSeparator(pad=5),
                     psg.Input(
-                        key='-T1_SaveInput-',
+                        key='-Mp3SaveAs-',
                         do_not_clear=False,
                         tooltip=
                         'New filename of resulting mp3 file.\nLeave blank for default file name.',
@@ -90,31 +123,30 @@ appLayout: list = [
                 ],
                 [
                     psg.ReadFormButton(
-                        'Convert File',
+                        'Convert',
                         key='-ConvertToMp3-',
                         button_color='green',
                         tooltip=
                         'Start conversion of the specified video file to .mp3 formatting.'
                     )
-                ]
+                ],
             ],
             expand_x=True,
             element_justification='Center')
     ],
     # Progress Bar
-    [
-        psg.Frame(None,
-                  layout=[[
-                      psg.ProgressBar(style='clam',
-                                      k='-ProgressBar-',
-                                      expand_x=True,
-                                      max_value=100,
-                                      orientation='vertical',
-                                      s=(1, 30))
-                  ]],
-                  expand_x=True,
-                  expand_y=True)
-    ],
+    #[
+    #    psg.Frame(None,
+    #              layout=[[
+    #                  psg.ProgressBar(style='clam',
+    #                                  k='-ProgressBar-',
+    #                                  expand_x=True,
+    #                                  max_value=100,
+    #                                  orientation='horizontal')
+    #              ]],
+    #              expand_x=True,
+    #              expand_y=True)
+    #],
     # Event Output Frame
     [
         psg.Frame(None,
@@ -131,6 +163,7 @@ appLayout: list = [
                   expand_x=True,
                   expand_y=True)
     ],
+    [psg.HorizontalSeparator()],
     [psg.Exit(button_color='red', tooltip='Exit application.')]
 ]
 
