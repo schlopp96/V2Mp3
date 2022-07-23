@@ -8,9 +8,9 @@ sys.path.insert(0, dirname(
     dirname(__file__)))  # Ensure main module can be found by Python.
 
 chdir(dirname(
-    __file__))  # Set current working directory to the directory of this file.
+    __file__))  # Set current working directory to the directory of the module.
 
-from V2Mp3.appEvents.events import _event_loop
+from V2Mp3.appEvents.events import GUILoop
 
 #&============================================================================#
 
@@ -22,11 +22,11 @@ def main() -> None:
 
     ---
 
-    :returns: Program window.
+    :returns: start program
     :rtype: None
     """
 
-    return _event_loop()
+    return GUILoop()
 
 
 if __name__ == '__main__':

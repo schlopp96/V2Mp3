@@ -6,7 +6,7 @@ from secrets import token_urlsafe as uuid
 import moviepy.editor as mv
 import PySimpleGUI as psg
 from pytube import YouTube as YT
-from V2Mp3.appGUI import layout
+from V2Mp3.appGUI import gui
 from V2Mp3.appLogger.appLogger import setLogger
 
 __version__ = '0.3.0'
@@ -17,7 +17,7 @@ _textborder: str = "=".ljust((78),
                              "=")  # Text border for log file organization.
 
 
-class Events:
+class GUIEvents:
     """Handle GUI events.
 
     - Contains the following class methods:
@@ -71,16 +71,17 @@ class Events:
                 save_to = abspath(
                     './downloads/videos')  # Set default save location.
 
-            video.download(save_to, filename=save_as)  # Download video.
+            #video.download(output_path=save_to, filename=save_as)  # Download video.
+            video.on_progress(file_handler=save_as)  # Show progress bar.
 
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
             logger.info(
                 f'Successfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
         except Exception as exc:
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
             )
             logger.error(
@@ -124,14 +125,14 @@ class Events:
 
             audio.download(save_to, filename=save_as)  # Download audio
 
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\nSuccessfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
             logger.info(
                 f'Successfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
         except Exception as exc:
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
             )
 
@@ -143,7 +144,7 @@ class Events:
               filepath: str,
               save_as: str | None = None,
               save_to: str | None = None) -> None:
-        """Convert locally stored video files to .mp3 audio format.
+        """Convert locally stored video files to ".mp3" audio format.
 
         - Can optionally save file with custom filename by passing desired filename to :param:`save_as` parameter.
             - If :param:`save_as` is `None`, the default file name will be used.
@@ -174,7 +175,7 @@ class Events:
         :type save_as: :class:`str` | None, optional
         :param save_to: optional path to save resulting audio file to, defaults to None
         :type save_to: :class:`str` | None, optional
-        :returns: .mp3 audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
+        :returns: ".mp3" audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
         :rtype: None
         """
 
@@ -182,9 +183,9 @@ class Events:
             if save_as is None:  # If no save name is provided, use default.
                 basename: str = os.path.basename(
                     filepath)  # Get file name from path.
-                save_as = f'{os.path.splitext(basename)[0]}_{uuid(3)}.mp3'  # Generate random 5-character uuid for file name & add .mp3 extension
+                save_as = f'{os.path.splitext(basename)[0]}_{uuid(3)}.mp3'  # Generate 5-character uuid for filename & add ".mp3" extension
             else:
-                save_as = f'{save_as}.mp3'  # Add .mp3 extension
+                save_as = f'{save_as}.mp3'  # Add ".mp3" extension
 
             if save_to is None:
                 save_to = abspath(
@@ -196,7 +197,7 @@ class Events:
             audio.write_audiofile(f'{save_to}/{save_as}',
                                   logger=None)  # Write audio to file.
 
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\nSuccessfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n'
             )
 
@@ -205,7 +206,7 @@ class Events:
             )
 
         except Exception as exc:
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{filepath}"\n==> Intended conversion output: "{save_as}"\n\n==> Exception:\n==> {exc}\n\n==> Please try again!\n'
             )
 
@@ -214,10 +215,11 @@ class Events:
             )
 
 
-events = Events()
+events = GUIEvents()
 
 
-def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
+def GUILoop(
+) -> None:  # sourcery skip: low-code-quality, merge-else-if-into-elif
     """Processing for application events.
 
     ---
@@ -230,7 +232,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
         f'Started application...\n==> Welcome to V2Mp3 v{__version__}!')
 
     while True:
-        event, vals = layout.window.read()
+        event, vals = gui.window.read()
         logger.info(f'{event} : {vals}')
 
         #print(event, vals) # DEBUG
@@ -239,6 +241,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
             break
 
         if event == '-Download-':
+
             if vals['-URLInput-'] == "":
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
@@ -246,7 +249,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                 logger.warning('Entry can\'t be blank!')
                 continue
 
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f"Downloading File: {vals['-URLInput-']}")
 
             if vals['-YTSaveAs-'] == "" and vals['-YTSaveTo-'] == "":
@@ -254,6 +257,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                     events.dl_ytAudio(vals['-URLInput-'])
                 else:
                     events.dl_ytVideo(vals['-URLInput-'])
+
             elif vals['-YTSaveAs-'] == "":
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'],
@@ -261,6 +265,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                 else:
                     events.dl_ytVideo(vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
+
             elif vals['-YTSaveTo-'] == "":
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'],
@@ -268,6 +273,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                 else:
                     events.dl_ytVideo(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp4')
+
             else:
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'],
@@ -279,6 +285,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                                       save_to=vals['-YTSaveTo-'])
 
         if event == '-ConvertToMp3-':
+
             if vals['-FileInput-'] == "":
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
@@ -286,7 +293,7 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                 logger.warning('Entry can\'t be blank!')
                 continue
 
-            layout.window['-Output-'].print(
+            gui.window['-Output-'].print(
                 f"Converting File: {vals['-FileInput-']}")
 
             if vals['-Mp3SaveAs-'] == "" and vals['-Mp3SaveTo-'] == "":
@@ -299,5 +306,5 @@ def _event_loop() -> None:  # sourcery skip: merge-else-if-into-elif
                 events.toMp3(vals['-FileInput-'], vals['-Mp3SaveAs-'],
                              vals['-Mp3SaveTo-'])
 
-    layout.window.Close()  # Close window and return resources to OS
+    gui.window.Close()  # Close window and return resources to OS
     logger.info(f'Exiting application...\n{_textborder}')
