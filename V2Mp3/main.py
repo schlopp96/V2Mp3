@@ -18,8 +18,6 @@ from V2Mp3.appEvents.events import GUILoop
 def main() -> None:
     """Program entry point.
 
-    - Responsible for processing GUI events and responses.
-
     ---
 
     :returns: start program
