@@ -2,7 +2,7 @@ import PySimpleGUI as psg
 
 __version__ = '0.3.0'
 
-theme = psg.theme('DarkGrey11')
+theme = psg.theme('DarkGrey15')
 
 layout: list = [
     # Top Text
@@ -172,7 +172,7 @@ layout: list = [
     [
         psg.Frame('Output',
                   layout=[[
-                      psg.Multiline(size=(50, 30),
+                      psg.Multiline(size=(50, 29),
                                     key='-Output-',
                                     disabled=True,
                                     auto_refresh=True,
