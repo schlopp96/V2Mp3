@@ -71,8 +71,8 @@ class GUIEvents:
                 save_to = abspath(
                     './downloads/videos')  # Set default save location.
 
-            #video.download(output_path=save_to, filename=save_as)  # Download video.
-            video.on_progress(file_handler=save_as)  # Show progress bar.
+            video.download(output_path=save_to,
+                           filename=save_as)  # Download video.
 
             gui.window['-Output-'].print(
                 f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
