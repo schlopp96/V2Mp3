@@ -1,6 +1,6 @@
 # V2Mp3
 
-![Logo](./img/V2Mp3_Logo.png)
+![Logo](./assets/V2Mp3_Logo.png)
 
 ---
 
@@ -78,7 +78,9 @@
 
 3. Install all dependencies for this package using the following command:
 
-   - `pip install -r requirements.txt`
+   - ```shell
+     pip install -r requirements.txt
+     ```
 
 4. **This step is OPTIONAL**
    - Move the _**`V2Mp3-vx.x.x`**_ directory to your global Python 3rd-party package installation directory to be able to import _**V2Mp3**_ like any other module:
@@ -86,11 +88,11 @@
 
 - You should now be able to import/run _**V2Mp3**_ within your python environment by entering the following:
 
-```python
-  >>> from V2Mp3 import v2mp3
-  >>> v2mp3() # open program window.
-...
-```
+  - ```python
+    >>> from V2Mp3 import v2mp3
+    >>> v2mp3() # open program window.
+    ...
+    ```
 
 - Done!
 
@@ -102,9 +104,9 @@
 
 - You can quickly start _**`V2Mp3`**_ using this simple CLI command:
 
-```shell
-  v2mp3
-```
+  - ```shell
+     v2mp3
+    ```
 
 - Other ways to start V2Mp3 include:
 
@@ -137,7 +139,7 @@
 
 ### Quick Look at _**`V2Mp3`**_
 
-![V2Mp3](./img/v2mp3_gui.png)
+![V2Mp3](./assets/v2mp3_gui.png)
 
 ---
 
