@@ -6,7 +6,7 @@
 
 ## About
 
-**_`V2Mp3`_** is a simple, compact video-to-audio conversion tool with built-in _**YouTube**_ video/audio download functionality.
+**_`V2Mp3`_** is an easy-to-use compact video-to-audio conversion tool with built-in _**YouTube**_ video/audio download functionality.
 
 - Convert locally stored video files _**([of any file-format supported by `ffmpeg`](https://ffmpeg.org/general.html#Video-Codecs))**_ to _**.mp3**_ audio.
 
@@ -33,21 +33,28 @@
 
 ### Using pip
 
-> _Easiest_ method. **Highly recommended over manual installation.**
+> _Easiest method of installation._
+> **Highly recommended over manual installation.**
 
-- Run the following to install using `pip`:
+- Run the following to install V2Mp3 using `pip`:
 
-  ```shell
-  pip install V2Mp3
-  ```
+  - ```shell
+    pip install V2Mp3
+    ```
 
-- You should now be able to import/run _**`V2Mp3`**_ within your python environment by entering the following:
+- Once installed, you can quickly start V2Mp3 with the following command:
 
-  ```python
-  >>> from V2Mp3 import v2mp3
-  >>> v2mp3() # open program window.
-  ...
-  ```
+  - ```shell
+    v2mp3
+    ```
+
+- You may also import/run _**`V2Mp3`**_ within your python environment like so:
+
+  - ```python
+    >>> from V2Mp3 import v2mp3
+    >>> v2mp3() # open program window.
+    ...
+    ```
 
 - Done!
 
@@ -55,21 +62,25 @@
 
 ### Manual Installation
 
-> _Not_ recommended.
+> _Not recommended._
 
-1. Start by doing one of two things:
+1. Start by doing _one of two things_:
 
    - _**A.**_ Download source code **\*.zip** archive from the V2Mp3 GitHub repo ["releases"](https://github.com/schlopp96/V2Mp3/releases/latest) tab, and extract the contents to your desired installation directory.
+
    - _**B.**_ Clone the repo with the git client of your choice by entering the following command:
-     - `git clone https://github.com/schlopp96/V2Mp3/releases/latest/`
+
+     - ```shell
+        git clone https://github.com/schlopp96/V2Mp3/releases/latest/
+        ```
 
 2. Navigate to directory containing extracted contents, and open said directory within a terminal.
 
-3. Install all dependencies for this package by entering the following command:
+3. Install all dependencies for this package using the following command:
 
    - `pip install -r requirements.txt`
 
-4. **(OPTIONAL)**
+4. **This step is OPTIONAL**
    - Move the _**`V2Mp3-vx.x.x`**_ directory to your global Python 3rd-party package installation directory to be able to import _**V2Mp3**_ like any other module:
      - `"path/to/python/Lib/site-packages/HERE"`
 
