@@ -18,44 +18,45 @@ _textborder: str = "=".ljust((78),
 
 
 class GUIEvents:
-    """Handle GUI events.
+    """Provides methods for handling various GUI events.
 
-    - Contains the following class methods:
+    ---
 
-        - :func:`dl_ytVideo(self, url: str, save_as: str = None) -> None`
+    - Contains the following static methods:
+
+        - :func:`dl_ytVideo(url: str, save_as: str = None) -> None`
             - Downloads a YouTube video to the local system.
             - If :param:`save_as` is `None`, the default file name will be used.
 
-        - :func:`dl_ytAudio(self, url: str, save_as: str = None) -> None`
+        - :func:`dl_ytAudio(url: str, save_as: str = None) -> None`
             - Downloads a YouTube video's audio to the local system.
             - If :param:`save_as` is `None`, the default file name will be used.
             - Works with both standard YouTube videos and videos with audio only.
 
-        - :func:`to_mp3(self, filepath: str, save_as: str = None) -> None`
+        - :func:`to_mp3(filepath: str, save_as: str = None) -> None`
             - Converts a locally stored video file to an mp3 file.
             - If :param:`save_as` is `None`, the default file name will be used.
             - Works for any file extension supported by `ffmpeg`.
-
     """
 
-    def dl_ytVideo(self,
-                   url: str,
+    @staticmethod
+    def dl_ytVideo(url: str,
                    save_as: str | None = None,
                    save_to: str | None = None) -> None:
-        """Download video found at YouTube URL: :class:`url`.
+        """Download video found at YouTube URL: :param:`url`.
 
         - If :param:`save_as` is `None`, the default file name will be used.
-        - If :param:`save_to` is `None`, the default file location will be used: `"~/V2Mp3/downloads/videos"`.
+        - If :param:`save_to` is `None`, the default file location will be used: `"~./V2Mp3/downloads/videos"`.
 
         ---
 
         :param url: URL address of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded video as, defaults to None
+        :param save_as: optional name to save downloaded video as, defaults to `None`
         :type save_as: :class:`str`, optional
-        :param save_to: optional path to save download to, defaults to None
-        :type save_to: :class:`str` | None, optional
-        :returns: downloaded YouTube video file, can be found in `"~/V2Mp3/downloads/videos"` by default
+        :param save_to: optional path to save download to, defaults to `None`
+        :type save_to: :class:`str` | `None`, optional
+        :returns: downloaded YouTube video file, can be found in `"~./V2Mp3/downloads/videos"` by default
         :rtype: None
         """
 
@@ -88,8 +89,8 @@ class GUIEvents:
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
-    def dl_ytAudio(self,
-                   url: str,
+    @staticmethod
+    def dl_ytAudio(url: str,
                    save_as: str | None = None,
                    save_to: str | None = None) -> None:
         """Download audio from media content found at YouTube link: :param:`url`.
@@ -97,18 +98,18 @@ class GUIEvents:
         - Works with both standard YouTube videos and videos with audio only (e.g. YouTube Music links).
 
         - If :param:`save_as` is `None`, the default file name will be used.
-        - If :param:`save_to` is `None`, the default file location will be used: `"~/V2Mp3/downloads/audio"`.
+        - If :param:`save_to` is `None`, the default file location will be used: `"~./V2Mp3/downloads/audio"`.
 
 
         ---
 
         :param url: url of YouTube content to download.
         :type url: :class:`str`
-        :param save_as: optional name to save downloaded audio as, defaults to None
+        :param save_as: optional name to save downloaded audio as, defaults to `None`
         :type save_as: :class:`str`, optional
-        :param save_to: optional path to save download to, defaults to None
-        :type save_to: :class:`str` | None, optional
-        :returns: downloaded YouTube audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
+        :param save_to: optional path to save download to, defaults to `None`
+        :type save_to: :class:`str` | `None`, optional
+        :returns: downloaded YouTube audio file, can be found in `"~./V2Mp3/downloads/audio"` by default
         :rtype: None
         """
 
@@ -140,8 +141,8 @@ class GUIEvents:
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
-    def toMp3(self,
-              filepath: str,
+    @staticmethod
+    def toMp3(filepath: str,
               save_as: str | None = None,
               save_to: str | None = None) -> None:
         """Convert locally stored video files to ".mp3" audio format.
@@ -150,7 +151,7 @@ class GUIEvents:
             - If :param:`save_as` is `None`, the default file name will be used.
 
         - Can optionally save file to custom location by passing desired filepath to :param:`save_to` parameter.
-            - If :param:`save_to` is `None`, the default filepath will be used: `"~/V2Mp3/downloads/audio"`.
+            - If :param:`save_to` is `None`, the default filepath will be used: `"~./V2Mp3/downloads/audio"`.
 
         - Works for any file extension supported by `ffmpeg`, including:
             - .aiff
@@ -171,11 +172,11 @@ class GUIEvents:
 
         :param filepath: path to video file.
         :type filepath: :class:`str`
-        :param save_as: optional name to save resulting audio file as, defaults to None
-        :type save_as: :class:`str` | None, optional
-        :param save_to: optional path to save resulting audio file to, defaults to None
-        :type save_to: :class:`str` | None, optional
-        :returns: ".mp3" audio file, can be found in `"~/V2Mp3/downloads/audio"` by default
+        :param save_as: optional name to save resulting audio file as, defaults to `None`
+        :type save_as: :class:`str` | `None`, optional
+        :param save_to: optional path to save resulting audio file to, defaults to `None`
+        :type save_to: :class:`str` | `None`, optional
+        :returns: ".mp3" audio file, can be found in `"~./V2Mp3/downloads/audio"` by default
         :rtype: None
         """
 
@@ -220,12 +221,12 @@ events = GUIEvents()
 
 def GUILoop(
 ) -> None:  # sourcery skip: low-code-quality, merge-else-if-into-elif
-    """Processing for application events.
+    """Application GUI event loop.
 
     ---
 
     :returns: event processing
-    :rtype: None
+    :rtype: `None`
     """
 
     logger.info(
@@ -233,7 +234,7 @@ def GUILoop(
 
     while True:
         event, vals = gui.window.read()
-        logger.info(f'{event} : {vals}')
+        logger.info(f'{event} : {vals}')  # Log GUI events
 
         #print(event, vals) # DEBUG
 

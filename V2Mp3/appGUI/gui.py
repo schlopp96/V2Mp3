@@ -28,7 +28,7 @@ layout: list = [
                                     key='-URLInput-',
                                     do_not_clear=False,
                                     tooltip=
-                                    'Enter the URL of the content you wish to download.',
+                                    'Enter the web URL of the content you wish to download.',
                                     expand_x=True),
                             ],
                             [
@@ -59,7 +59,7 @@ layout: list = [
                                     key='-YTSaveAs-',
                                     do_not_clear=False,
                                     tooltip=
-                                    'New filename of resulting mp3 file.\nLeave blank for default file name.',
+                                    'New filename of resulting "*.mp3" file.\nLeave blank for default file name.',
                                     expand_x=True),
                             ],
                             [
@@ -73,7 +73,7 @@ layout: list = [
                             [
                                 psg.ReadFormButton(
                                     'Download',
-                                    button_color='green',
+                                    button_color=('white', 'green'),
                                     key='-Download-',
                                     tooltip=
                                     'Begin downloading content from YouTube URL.'
@@ -98,7 +98,7 @@ layout: list = [
                                     key='-FileInput-',
                                     do_not_clear=False,
                                     tooltip=
-                                    'Enter the filepath of the video you wish to convert to an mp3.',
+                                    'Enter the filepath of the video you wish to convert to an "*.mp3".',
                                     expand_x=True),
                                 psg.VerticalSeparator(pad=5),
                                 psg.FileBrowse(
@@ -107,7 +107,7 @@ layout: list = [
                                     initial_folder='./downloads/videos/',
                                     target=(psg.ThisRow, -2),
                                     tooltip=
-                                    'Browse local system storage for video file to convert to .mp3 formatting.'
+                                    'Browse local system storage for video file to convert to "*.mp3" formatting.'
                                 )
                             ],
                             [
@@ -115,10 +115,11 @@ layout: list = [
                                          s=8,
                                          justification='left'),
                                 psg.VerticalSeparator(pad=5),
-                                psg.Input(key='-Mp3SaveTo-',
-                                          do_not_clear=False,
-                                          tooltip='Location to save mp3 file.',
-                                          expand_x=True),
+                                psg.Input(
+                                    key='-Mp3SaveTo-',
+                                    do_not_clear=False,
+                                    tooltip='Location to save "*.mp3" file.',
+                                    expand_x=True),
                                 psg.VerticalSeparator(pad=5),
                                 psg.FolderBrowse(
                                     s=10,
@@ -126,7 +127,8 @@ layout: list = [
                                     initial_folder='./downloads/audio/',
                                     target=(psg.ThisRow, -2),
                                     tooltip=
-                                    'Browse for location to save mp3 file to.')
+                                    'Browse for location to save "*.mp3" file to.'
+                                )
                             ],
                             [
                                 psg.Text('Save As:', s=8,
@@ -136,16 +138,16 @@ layout: list = [
                                     key='-Mp3SaveAs-',
                                     do_not_clear=False,
                                     tooltip=
-                                    'New filename of resulting mp3 file.\nLeave blank for default file name.',
+                                    'New filename of resulting "*.mp3" file.\nLeave blank for default file name.',
                                     expand_x=True)
                             ],
                             [
                                 psg.ReadFormButton(
                                     'Convert',
                                     key='-ConvertToMp3-',
-                                    button_color='green',
+                                    button_color=('white', 'green'),
                                     tooltip=
-                                    'Start conversion of the specified video file to .mp3 formatting.'
+                                    'Start conversion of the specified video file to "*.mp3" formatting.'
                                 )
                             ],
                         ],
@@ -187,7 +189,7 @@ layout: list = [
     ],
     [psg.HorizontalSeparator()],
     [
-        psg.Exit(button_color='red', tooltip='Exit application.'),
+        psg.Exit(button_color=('white', 'red'), tooltip='Exit application.'),
     ]
 ]
 
