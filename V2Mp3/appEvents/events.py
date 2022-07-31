@@ -9,12 +9,11 @@ from pytube import YouTube as YT
 from V2Mp3.appGUI import gui
 from V2Mp3.appLogger.appLogger import setLogger
 
-__version__ = '0.3.0'
+__version__ = '0.3.0'  # Current program version
 
-logger = setLogger("V2Mp3")  # Set up logger
+logger = setLogger("V2Mp3")  # Initialize logger
 
-_textborder: str = "=".ljust((78),
-                             "=")  # Text border for log file organization.
+_textborder: str = "=".ljust((78), "=")  # Text border for log organization.
 
 
 class GUIEvents:
@@ -22,21 +21,24 @@ class GUIEvents:
 
     ---
 
-    - Contains the following static methods:
+    - Contains the following event-handler methods:
 
         - :func:`dl_ytVideo(url: str, save_as: str = None) -> None`
             - Downloads a YouTube video to the local system.
             - If :param:`save_as` is `None`, the default file name will be used.
+            - Static method.
 
         - :func:`dl_ytAudio(url: str, save_as: str = None) -> None`
             - Downloads a YouTube video's audio to the local system.
             - If :param:`save_as` is `None`, the default file name will be used.
             - Works with both standard YouTube videos and videos with audio only.
+            - Static method.
 
         - :func:`to_mp3(filepath: str, save_as: str = None) -> None`
             - Converts a locally stored video file to an mp3 file.
             - If :param:`save_as` is `None`, the default file name will be used.
             - Works for any file extension supported by `ffmpeg`.
+            - Static method.
     """
 
     @staticmethod
@@ -81,6 +83,7 @@ class GUIEvents:
             logger.info(
                 f'Successfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
+
         except Exception as exc:
             gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
@@ -132,6 +135,7 @@ class GUIEvents:
             logger.info(
                 f'Successfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
+
         except Exception as exc:
             gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
@@ -241,7 +245,7 @@ def GUILoop(
         if event in [psg.WIN_CLOSED, 'Exit']:
             break
 
-        if event == '-Download-':
+        if event == '-Download-':  # Download video/audio from YouTube
 
             if vals['-URLInput-'] == "":
                 psg.popup('ERROR',
@@ -256,6 +260,7 @@ def GUILoop(
             if vals['-YTSaveAs-'] == "" and vals['-YTSaveTo-'] == "":
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'])
+
                 else:
                     events.dl_ytVideo(vals['-URLInput-'])
 
@@ -263,6 +268,7 @@ def GUILoop(
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
+
                 else:
                     events.dl_ytVideo(vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
@@ -271,6 +277,7 @@ def GUILoop(
                 if vals['-CB_AudioOnly-']:
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp3')
+
                 else:
                     events.dl_ytVideo(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp4')
@@ -280,12 +287,13 @@ def GUILoop(
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp3',
                                       save_to=vals['-YTSaveTo-'])
+
                 else:
                     events.dl_ytVideo(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp4',
                                       save_to=vals['-YTSaveTo-'])
 
-        if event == '-ConvertToMp3-':
+        if event == '-ConvertToMp3-':  # Convert video to audio
 
             if vals['-FileInput-'] == "":
                 psg.popup('ERROR',
@@ -299,10 +307,13 @@ def GUILoop(
 
             if vals['-Mp3SaveAs-'] == "" and vals['-Mp3SaveTo-'] == "":
                 events.toMp3(vals['-FileInput-'])
+
             elif vals['-Mp3SaveTo-'] == "":
                 events.toMp3(vals['-FileInput-'], save_as=vals['-Mp3SaveAs-'])
+
             elif vals['-Mp3SaveAs-'] == "":
                 events.toMp3(vals['-FileInput-'], save_to=vals['-Mp3SaveTo-'])
+
             else:
                 events.toMp3(vals['-FileInput-'], vals['-Mp3SaveAs-'],
                              vals['-Mp3SaveTo-'])

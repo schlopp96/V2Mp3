@@ -1,6 +1,6 @@
 import PySimpleGUI as psg
 
-__version__ = '0.3.0'
+__version__ = '0.3.0'  # Current program version
 
 theme = psg.theme('DarkGrey15')
 
@@ -38,7 +38,7 @@ layout: list = [
                                 psg.VerticalSeparator(pad=5),
                                 psg.Input(
                                     key='-YTSaveTo-',
-                                    do_not_clear=False,
+                                    do_not_clear=True,
                                     tooltip='Location to save downloaded file.',
                                     expand_x=True),
                                 psg.VerticalSeparator(pad=5),
@@ -65,7 +65,7 @@ layout: list = [
                             [
                                 psg.Checkbox(
                                     'Audio Only',
-                                    key='-CB_AudioOnly-',
+                                    key='-ToggleAudioDL-',
                                     tooltip=
                                     'Choose whether to download normally (video with audio), or audio ONLY.'
                                 )
@@ -117,7 +117,7 @@ layout: list = [
                                 psg.VerticalSeparator(pad=5),
                                 psg.Input(
                                     key='-Mp3SaveTo-',
-                                    do_not_clear=False,
+                                    do_not_clear=True,
                                     tooltip='Location to save "*.mp3" file.',
                                     expand_x=True),
                                 psg.VerticalSeparator(pad=5),
