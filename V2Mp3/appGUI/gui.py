@@ -171,7 +171,7 @@ layout: list = [
     [
         psg.Frame('Output',
                   layout=[[
-                      psg.Multiline(size=(50, 29),
+                      psg.Multiline(size=(50, 26),
                                     key='-Output-',
                                     disabled=True,
                                     auto_refresh=True,
