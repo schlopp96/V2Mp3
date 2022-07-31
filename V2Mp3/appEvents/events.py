@@ -189,6 +189,7 @@ class GUIEvents:
                 basename: str = os.path.basename(
                     filepath)  # Get file name from path.
                 save_as = f'{os.path.splitext(basename)[0]}_{uuid(3)}.mp3'  # Generate 5-character uuid for filename & add ".mp3" extension
+
             else:
                 save_as = f'{save_as}.mp3'  # Add ".mp3" extension
 
