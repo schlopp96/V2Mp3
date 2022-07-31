@@ -259,14 +259,14 @@ def GUILoop(
                 f"Downloading File: {vals['-URLInput-']}")
 
             if vals['-YTSaveAs-'] == "" and vals['-YTSaveTo-'] == "":
-                if vals['-CB_AudioOnly-']:
+                if vals['-ToggleAudioDL-']:
                     events.dl_ytAudio(vals['-URLInput-'])
 
                 else:
                     events.dl_ytVideo(vals['-URLInput-'])
 
             elif vals['-YTSaveAs-'] == "":
-                if vals['-CB_AudioOnly-']:
+                if vals['-ToggleAudioDL-']:
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
 
@@ -275,7 +275,7 @@ def GUILoop(
                                       save_to=vals['-YTSaveTo-'])
 
             elif vals['-YTSaveTo-'] == "":
-                if vals['-CB_AudioOnly-']:
+                if vals['-ToggleAudioDL-']:
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp3')
 
@@ -284,7 +284,7 @@ def GUILoop(
                                       save_as=vals['-YTSaveAs-'] + '.mp4')
 
             else:
-                if vals['-CB_AudioOnly-']:
+                if vals['-ToggleAudioDL-']:
                     events.dl_ytAudio(vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp3',
                                       save_to=vals['-YTSaveTo-'])
