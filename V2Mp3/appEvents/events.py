@@ -7,11 +7,11 @@ import moviepy.editor as mv
 import PySimpleGUI as psg
 from pytube import YouTube as YT
 from V2Mp3.appGUI import gui
-from V2Mp3.appLogger.appLogger import setLogger
+from V2Mp3.appLoggers.loggers import _setLogger
 
 __version__ = '0.3.0'  # Current program version
 
-logger = setLogger("V2Mp3")  # Initialize logger
+logger = _setLogger("V2Mp3")  # Initialize logger
 
 _textborder: str = "=".ljust((78), "=")  # Text border for log organization.
 

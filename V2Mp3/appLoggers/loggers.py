@@ -1,7 +1,7 @@
 import logging
 
 
-def setLogger(name) -> logging.Logger:
+def _setLogger(name) -> logging.Logger:
     """
     Creates and returns program logger object.
 

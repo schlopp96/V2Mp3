@@ -6,7 +6,7 @@ theme = psg.theme('DarkGrey15')
 
 layout: list = [
     # Top Text
-    [psg.Text(f'Welcome to V2Mp3 v{__version__}')],
+    [psg.Text(f'V2Mp3 v{__version__}')],
     [psg.HorizontalSeparator()],
     [
         psg.Frame(
@@ -59,7 +59,7 @@ layout: list = [
                                     key='-YTSaveAs-',
                                     do_not_clear=False,
                                     tooltip=
-                                    'New filename of resulting ".mp3" file.\nLeave blank for default file name.',
+                                    'Save name of downloaded file.\nLeave blank for default file name.',
                                     expand_x=True),
                             ],
                             [
@@ -151,27 +151,27 @@ layout: list = [
                         expand_x=True,
                         element_justification='Center')
                 ],
-                [
-                    # Progress Bar
-                    psg.Frame(None,
-                              layout=[[
-                                  psg.ProgressBar(style='clam',
-                                                  k='-ProgBar-',
-                                                  s=(50, 5),
-                                                  expand_x=True,
-                                                  max_value=100,
-                                                  orientation='horizontal')
-                              ]],
-                              expand_x=True)
-                ]
             ],
             expand_x=True)
     ],
+    [psg.HorizontalSeparator(pad=5)],
+    [
+        # Progress Bar
+        [
+            psg.ProgressBar(style='clam',
+                            k='-ProgBar-',
+                            s=(50, 5),
+                            expand_x=True,
+                            max_value=100,
+                            orientation='horizontal')
+        ]
+    ],
+    [psg.HorizontalSeparator(pad=5)],
     # Event Output Frame
     [
         psg.Frame('Output',
                   layout=[[
-                      psg.Multiline(size=(50, 26),
+                      psg.Multiline(size=(50, 28),
                                     key='-Output-',
                                     disabled=True,
                                     auto_refresh=True,
@@ -185,6 +185,7 @@ layout: list = [
                   expand_y=True),
     ],
     [psg.HorizontalSeparator()],
+    # Bottom Row
     [
         psg.Exit(button_color=('white', 'red'), tooltip='Exit application.'),
     ]
