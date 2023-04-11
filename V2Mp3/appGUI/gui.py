@@ -195,11 +195,13 @@ GUI: list = [
     [psg.HorizontalSeparator()],
     [
         # Bottom Row
-        psg.Exit(button_color=('white', 'red'), tooltip='Exit application.'),
+        psg.Exit(k='-Exit-',
+                 button_color=('white', 'red'),
+                 tooltip='Exit application.'),
     ]
 ]
 
-window: psg.Window = psg.Window('V2Mp3',
+window: psg.Window = psg.Window(title='V2Mp3',
                                 layout=GUI,
                                 auto_size_buttons=True,
                                 text_justification='Center',

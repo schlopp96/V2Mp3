@@ -39,6 +39,10 @@ class GUIEvents:
             - If :param:`save_as` is `None`, the default file name will be used.
             - Works for any file extension supported by `ffmpeg`.
             - Static method.
+
+        - :func:`toggle_bar(vals: dict) -> None`
+            - Toggles the visibility of GUI progress bar/percentage label row based on the state of toggle button.
+            - Static method.
     """
 
     @staticmethod
@@ -52,7 +56,7 @@ class GUIEvents:
 
         ---
 
-        :param url: URL address of YouTube content to download.
+        :param url: URL address of YouTube content to download
         :type url: :class:`str`
         :param save_as: optional name to save downloaded video as, defaults to `None`
         :type save_as: :class:`str`, optional
@@ -106,7 +110,7 @@ class GUIEvents:
 
         ---
 
-        :param url: url of YouTube content to download.
+        :param url: url of YouTube content to download
         :type url: :class:`str`
         :param save_as: optional name to save downloaded audio as, defaults to `None`
         :type save_as: :class:`str`, optional
@@ -174,7 +178,7 @@ class GUIEvents:
 
         ---
 
-        :param filepath: path to video file.
+        :param filepath: path to video file
         :type filepath: :class:`str`
         :param save_as: optional name to save resulting audio file as, defaults to `None`
         :type save_as: :class:`str` | `None`, optional
@@ -220,6 +224,27 @@ class GUIEvents:
                 f'Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{filepath}"\n==> Intended conversion output: "{save_as}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
+    @staticmethod
+    def toggle_bar(vals: dict) -> None:
+        """Toggles the visibility of GUI progress bar/percentage label row based on the state of toggle button.
+
+        ---
+
+        :param vals: dictionary containing values of GUI window elements
+        :type vals: :class:`dict`
+        :returns: toggle progress bar row visibility ON/OFF
+        :rtype: None
+        """
+        if vals['-ToggleProgressBar-'] == 'On':
+            gui.window['-ProgBar-'].update(visible=True)
+            gui.window['-%-'].update(visible=True)
+            logger.info('Toggled progress bar visibility ON')
+
+        else:
+            gui.window['-ProgBar-'].update(visible=False)
+            gui.window['-%-'].update(visible=False)
+            logger.info('Toggled progress bar visibility OFF')
+
 
 events = GUIEvents()
 
@@ -242,18 +267,11 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
 
         #print(event, vals)  # DEBUG
 
-        if event in [psg.WIN_CLOSED, 'Exit']:  # Exit GUI
+        if event in [psg.WIN_CLOSED, '-Exit-']:  # Exit GUI
             break
 
-        if event == '-ToggleProgressBar-':  #Toggle progress bar visibility
-
-            if vals['-ToggleProgressBar-'] == 'On':
-                gui.window['-ProgBar-'].update(visible=True)
-                gui.window['-%-'].update(visible=True)
-
-            else:
-                gui.window['-ProgBar-'].update(visible=False)
-                gui.window['-%-'].update(visible=False)
+        if event == '-ToggleProgressBar-':  # Toggle progress bar visibility
+            events.toggle_bar(vals)
 
         if event == '-Download-':  # Download video/audio from YouTube
 
