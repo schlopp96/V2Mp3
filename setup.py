@@ -28,6 +28,7 @@ with open('requirements.txt', 'r') as fh2:
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3.9",
             "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
             "Topic :: Multimedia",
             "Topic :: Multimedia :: Sound/Audio",
             "Topic :: Multimedia :: Sound/Audio :: Conversion",
