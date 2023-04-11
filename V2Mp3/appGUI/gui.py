@@ -4,7 +4,7 @@ __version__ = '0.3.0'  # Current program version
 
 theme = psg.theme('DarkGrey15')
 
-layout: list = [
+GUI: list = [
     # Top Text
     [psg.Text(f'V2Mp3 v{__version__}')],
     [psg.HorizontalSeparator()],
@@ -156,27 +156,35 @@ layout: list = [
     ],
     [psg.HorizontalSeparator(pad=5)],
     [
+        [
+            psg.ButtonMenu('Toggle Progress Bar',
+                           k='-ToggleProgressBar-',
+                           menu_def=['-BarToggle-', ['On', 'Off']])
+        ],
         # Progress Bar
         [
-            psg.ProgressBar(style='clam',
-                            k='-ProgBar-',
-                            s=(50, 5),
-                            expand_x=True,
-                            max_value=100,
-                            orientation='horizontal')
-        ]
+            psg.pin(
+                psg.ProgressBar(style='clam',
+                                k='-ProgBar-',
+                                s=(50, 5),
+                                expand_x=True,
+                                max_value=100,
+                                orientation='horizontal')),
+            psg.pin(psg.Text('%', key='-%-', justification='center'))
+        ],
     ],
     [psg.HorizontalSeparator(pad=5)],
-    # Event Output Frame
     [
+        # Event Output Frame
         psg.Frame('Output',
                   layout=[[
-                      psg.Multiline(size=(50, 28),
+                      psg.Multiline(size=(50, 24),
                                     key='-Output-',
                                     disabled=True,
                                     auto_refresh=True,
                                     autoscroll=True,
                                     write_only=True,
+                                    reroute_stdout=True,
                                     expand_x=True,
                                     expand_y=True,
                                     tooltip='Program task output.')
@@ -185,15 +193,17 @@ layout: list = [
                   expand_y=True),
     ],
     [psg.HorizontalSeparator()],
-    # Bottom Row
     [
+        # Bottom Row
         psg.Exit(button_color=('white', 'red'), tooltip='Exit application.'),
     ]
 ]
 
 window: psg.Window = psg.Window('V2Mp3',
-                                layout=layout,
+                                layout=GUI,
                                 auto_size_buttons=True,
                                 text_justification='Center',
                                 element_justification='Center',
-                                resizable=True)
+                                resizable=True,
+                                icon='./appGUI/img/V2Mp3_Logo.ico',
+                                relative_location=(0, -25))

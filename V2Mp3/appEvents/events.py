@@ -7,11 +7,11 @@ import moviepy.editor as mv
 import PySimpleGUI as psg
 from pytube import YouTube as YT
 from V2Mp3.appGUI import gui
-from V2Mp3.appLoggers.loggers import _setLogger
+from V2Mp3.appLoggers.loggers import __setLogger
 
 __version__ = '0.3.0'  # Current program version
 
-logger = _setLogger("V2Mp3")  # Initialize logger
+logger = __setLogger("V2Mp3")  # Initialize logger
 
 _textborder: str = "=".ljust((78), "=")  # Text border for log organization.
 
@@ -224,9 +224,8 @@ class GUIEvents:
 events = GUIEvents()
 
 
-def GUILoop(
-) -> None:  # sourcery skip: low-code-quality, merge-else-if-into-elif
-    """Application GUI event loop.
+def GUILoop() -> None:  # sourcery skip: low-code-quality
+    """Handles GUI event loop.
 
     ---
 
@@ -241,14 +240,24 @@ def GUILoop(
         event, vals = gui.window.read()
         logger.info(f'{event} : {vals}')  # Log GUI events
 
-        #print(event, vals) # DEBUG
+        #print(event, vals)  # DEBUG
 
-        if event in [psg.WIN_CLOSED, 'Exit']:
+        if event in [psg.WIN_CLOSED, 'Exit']:  # Exit GUI
             break
+
+        if event == '-ToggleProgressBar-':  #Toggle progress bar visibility
+
+            if vals['-ToggleProgressBar-'] == 'On':
+                gui.window['-ProgBar-'].update(visible=True)
+                gui.window['-%-'].update(visible=True)
+
+            else:
+                gui.window['-ProgBar-'].update(visible=False)
+                gui.window['-%-'].update(visible=False)
 
         if event == '-Download-':  # Download video/audio from YouTube
 
-            if vals['-URLInput-'] == "":
+            if vals['-URLInput-'] == "":  # No URL Error
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
                           keep_on_top=True)
@@ -258,45 +267,45 @@ def GUILoop(
             gui.window['-Output-'].print(
                 f"Downloading File: {vals['-URLInput-']}")
 
-            if vals['-YTSaveAs-'] == "" and vals['-YTSaveTo-'] == "":
+            if vals['-YTSaveAs-'] == "" and vals[
+                    '-YTSaveTo-'] == "":  # Default filename/location
                 if vals['-ToggleAudioDL-']:
-                    events.dl_ytAudio(vals['-URLInput-'])
+                    events.dl_ytAudio(url=vals['-URLInput-'])
 
                 else:
-                    events.dl_ytVideo(vals['-URLInput-'])
+                    events.dl_ytVideo(url=vals['-URLInput-'])
 
-            elif vals['-YTSaveAs-'] == "":
+            elif vals['-YTSaveAs-'] == "":  # Default filename
                 if vals['-ToggleAudioDL-']:
-                    events.dl_ytAudio(vals['-URLInput-'],
+                    events.dl_ytAudio(url=vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
 
                 else:
-                    events.dl_ytVideo(vals['-URLInput-'],
+                    events.dl_ytVideo(url=vals['-URLInput-'],
                                       save_to=vals['-YTSaveTo-'])
 
-            elif vals['-YTSaveTo-'] == "":
+            elif vals['-YTSaveTo-'] == "":  # Default save location
                 if vals['-ToggleAudioDL-']:
-                    events.dl_ytAudio(vals['-URLInput-'],
+                    events.dl_ytAudio(url=vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp3')
 
                 else:
-                    events.dl_ytVideo(vals['-URLInput-'],
+                    events.dl_ytVideo(url=vals['-URLInput-'],
                                       save_as=vals['-YTSaveAs-'] + '.mp4')
 
-            else:
-                if vals['-ToggleAudioDL-']:
-                    events.dl_ytAudio(vals['-URLInput-'],
-                                      save_as=vals['-YTSaveAs-'] + '.mp3',
-                                      save_to=vals['-YTSaveTo-'])
+            elif vals['-ToggleAudioDL-']:  # Toggle audio download ONLY
+                events.dl_ytAudio(url=vals['-URLInput-'],
+                                  save_as=vals['-YTSaveAs-'] + '.mp3',
+                                  save_to=vals['-YTSaveTo-'])
 
-                else:
-                    events.dl_ytVideo(vals['-URLInput-'],
-                                      save_as=vals['-YTSaveAs-'] + '.mp4',
-                                      save_to=vals['-YTSaveTo-'])
+            else:
+                events.dl_ytVideo(url=vals['-URLInput-'],
+                                  save_as=vals['-YTSaveAs-'] + '.mp4',
+                                  save_to=vals['-YTSaveTo-'])
 
         if event == '-ConvertToMp3-':  # Convert video to audio
 
-            if vals['-FileInput-'] == "":
+            if vals['-FileInput-'] == "":  # No file selected
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
                           keep_on_top=True)
@@ -306,18 +315,22 @@ def GUILoop(
             gui.window['-Output-'].print(
                 f"Converting File: {vals['-FileInput-']}")
 
-            if vals['-Mp3SaveAs-'] == "" and vals['-Mp3SaveTo-'] == "":
-                events.toMp3(vals['-FileInput-'])
+            if vals['-Mp3SaveAs-'] == "" and vals[
+                    '-Mp3SaveTo-'] == "":  # Default filename/save location
+                events.toMp3(filepath=vals['-FileInput-'])
 
-            elif vals['-Mp3SaveTo-'] == "":
-                events.toMp3(vals['-FileInput-'], save_as=vals['-Mp3SaveAs-'])
+            elif vals['-Mp3SaveTo-'] == "":  # Default save location
+                events.toMp3(filepath=vals['-FileInput-'],
+                             save_as=vals['-Mp3SaveAs-'])
 
-            elif vals['-Mp3SaveAs-'] == "":
-                events.toMp3(vals['-FileInput-'], save_to=vals['-Mp3SaveTo-'])
+            elif vals['-Mp3SaveAs-'] == "":  # Default filename
+                events.toMp3(filepath=vals['-FileInput-'],
+                             save_to=vals['-Mp3SaveTo-'])
 
             else:
-                events.toMp3(vals['-FileInput-'], vals['-Mp3SaveAs-'],
-                             vals['-Mp3SaveTo-'])
+                events.toMp3(filepath=vals['-FileInput-'],
+                             save_as=vals['-Mp3SaveAs-'],
+                             save_to=vals['-Mp3SaveTo-'])
 
-    gui.window.Close()  # Close window and return resources to OS
     logger.info(f'Exiting application...\n{_textborder}')
+    gui.window.Close()  # Close window and return resources to OS
