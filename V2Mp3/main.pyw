@@ -20,7 +20,7 @@ def main() -> None:
 
     ---
 
-    :returns: start program
+    :returns: initialize program
     :rtype: None
     """
 

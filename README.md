@@ -137,6 +137,12 @@
 - Newly converted .mp3 audio files can be found within the _**V2Mp3**_ installation directory:
   - `"~/V2Mp3/downloads/audio"`
 
+### **Progress Bar**
+
+- As of now, the progress bar is **NOT** functional.
+- Users can toggle the visibility of the progress bar using the "Toggle Progress Bar" button and selecting the "ON" or "OFF" option.
+- This toggle button will be temporary until the progress bar is fully functional.
+
 ### Quick Look at _**`V2Mp3`**_
 
 ![V2Mp3](./assets/v2mp3_gui.png)

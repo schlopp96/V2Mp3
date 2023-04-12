@@ -156,6 +156,7 @@ GUI: list = [
     ],
     [psg.HorizontalSeparator(pad=5)],
     [
+        # Progress Bar Toggle Button
         [
             psg.ButtonMenu('Toggle Progress Bar',
                            k='-ToggleProgressBar-',
@@ -170,7 +171,7 @@ GUI: list = [
                                 expand_x=True,
                                 max_value=100,
                                 orientation='horizontal')),
-            psg.pin(psg.Text('%', key='-%-', justification='center'))
+            psg.pin(psg.Text('0%', key='-%-', justification='center'))
         ],
     ],
     [psg.HorizontalSeparator(pad=5)],

@@ -1,5 +1,6 @@
 import os
 import os.path
+from logging import Logger
 from posixpath import abspath
 from secrets import token_urlsafe as uuid
 
@@ -11,9 +12,9 @@ from V2Mp3.appLoggers.loggers import __setLogger
 
 __version__ = '0.3.0'  # Current program version
 
-logger = __setLogger("V2Mp3")  # Initialize logger
+logger: Logger = __setLogger("V2Mp3")  # Initialize logger
 
-_textborder: str = "=".ljust((78), "=")  # Text border for log organization.
+__textborder: str = "=".ljust((78), "=")  # Text border for log organization.
 
 
 class GUIEvents:
@@ -226,7 +227,7 @@ class GUIEvents:
 
     @staticmethod
     def toggle_bar(vals: dict) -> None:
-        """Toggles the visibility of GUI progress bar/percentage label row based on the state of toggle button.
+        """Toggles the visibility of GUI progress bar based on the state of toggle button.
 
         ---
 
@@ -241,8 +242,8 @@ class GUIEvents:
             logger.info('Toggled progress bar visibility ON')
 
         else:
-            gui.window['-ProgBar-'].update(visible=False)
             gui.window['-%-'].update(visible=False)
+            gui.window['-ProgBar-'].update(visible=False)
             logger.info('Toggled progress bar visibility OFF')
 
 
@@ -350,5 +351,5 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
                              save_as=vals['-Mp3SaveAs-'],
                              save_to=vals['-Mp3SaveTo-'])
 
-    logger.info(f'Exiting application...\n{_textborder}')
+    logger.info(f'Exiting application...\n{__textborder}')
     gui.window.Close()  # Close window and return resources to OS
