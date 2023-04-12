@@ -160,7 +160,8 @@ GUI: list = [
         [
             psg.ButtonMenu('Toggle Progress Bar',
                            k='-ToggleProgressBar-',
-                           menu_def=['-BarToggle-', ['On', 'Off']])
+                           menu_def=['-BarToggle-', ['On', 'Off']],
+                           tooltip='Toggle visibility of progress bar.')
         ],
         # Progress Bar
         [
