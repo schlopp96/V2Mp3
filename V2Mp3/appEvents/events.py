@@ -12,7 +12,7 @@ from V2Mp3.appLoggers.loggers import __setLogger
 
 __version__ = '0.3.0'  # Current program version
 
-logger: Logger = __setLogger("V2Mp3")  # Initialize logger
+__logger: Logger = __setLogger("V2Mp3")  # Initialize logger
 
 __textborder: str = "=".ljust((78), "=")  # Text border for log organization.
 
@@ -85,7 +85,7 @@ class GUIEvents:
             gui.window['-Output-'].print(
                 f'\nSuccessfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
-            logger.info(
+            __logger.info(
                 f'Successfully downloaded video from YouTube!\n==> Video downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
 
@@ -93,7 +93,7 @@ class GUIEvents:
             gui.window['-Output-'].print(
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
             )
-            logger.error(
+            __logger.error(
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
@@ -137,7 +137,7 @@ class GUIEvents:
             gui.window['-Output-'].print(
                 f'\nSuccessfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}\n'
             )
-            logger.info(
+            __logger.info(
                 f'Successfully downloaded audio from YouTube!\n==> Audio Downloaded: "{yt_url.title}"\n==> Saved As: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n==> Content URL: {url}'
             )
 
@@ -146,7 +146,7 @@ class GUIEvents:
                 f'\n[ERROR] - Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Please try again!\n'
             )
 
-            logger.error(
+            __logger.error(
                 f'Something went wrong during attempt to download file...\n==> Content URL: "{url}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
@@ -212,7 +212,7 @@ class GUIEvents:
                 f'\nSuccessfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"\n'
             )
 
-            logger.info(
+            __logger.info(
                 f'Successfully converted video to audio!\n==> File converted: "{filepath}"\n==> Resulting audio file: "{save_as}"\n==> Save Location: "{save_to}/{save_as}"'
             )
 
@@ -221,7 +221,7 @@ class GUIEvents:
                 f'\n[ERROR] - Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{filepath}"\n==> Intended conversion output: "{save_as}"\n\n==> Exception:\n==> {exc}\n\n==> Please try again!\n'
             )
 
-            logger.error(
+            __logger.error(
                 f'Something went wrong during video to audio conversion...\n==> Intended video to be converted: "{filepath}"\n==> Intended conversion output: "{save_as}"\n==> Exception:\n==> {exc}\n==> Please try again!'
             )
 
@@ -239,12 +239,12 @@ class GUIEvents:
         if vals['-ToggleProgressBar-'] == 'On':
             gui.window['-ProgBar-'].update(visible=True)
             gui.window['-%-'].update(visible=True)
-            logger.info('Toggled progress bar visibility ON')
+            __logger.info('Toggled progress bar visibility ON')
 
         else:
             gui.window['-%-'].update(visible=False)
             gui.window['-ProgBar-'].update(visible=False)
-            logger.info('Toggled progress bar visibility OFF')
+            __logger.info('Toggled progress bar visibility OFF')
 
 
 events = GUIEvents()
@@ -259,12 +259,12 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
     :rtype: `None`
     """
 
-    logger.info(
+    __logger.info(
         f'Started application...\n==> Welcome to V2Mp3 v{__version__}!')
 
     while True:
         event, vals = gui.window.read()
-        logger.info(f'{event} : {vals}')  # Log GUI events
+        __logger.info(f'{event} : {vals}')  # Log GUI events
 
         #print(event, vals)  # DEBUG
 
@@ -280,7 +280,7 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
                           keep_on_top=True)
-                logger.warning('Entry can\'t be blank!')
+                __logger.warning('Entry can\'t be blank!')
                 continue
 
             gui.window['-Output-'].print(
@@ -328,7 +328,7 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
                 psg.popup('ERROR',
                           '- Input must NOT be blank! -',
                           keep_on_top=True)
-                logger.warning('Entry can\'t be blank!')
+                __logger.warning('Entry can\'t be blank!')
                 continue
 
             gui.window['-Output-'].print(
@@ -351,5 +351,5 @@ def GUILoop() -> None:  # sourcery skip: low-code-quality
                              save_as=vals['-Mp3SaveAs-'],
                              save_to=vals['-Mp3SaveTo-'])
 
-    logger.info(f'Exiting application...\n{__textborder}')
+    __logger.info(f'Exiting application...\n{__textborder}')
     gui.window.Close()  # Close window and return resources to OS
